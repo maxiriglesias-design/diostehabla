@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiosTeHabla — La Palabra de Dios Para Ti</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #D4A843;
+  --gold2: #E8C055;
+  --gold-soft: rgba(212,168,67,0.11);
+  --gold-border: rgba(212,168,67,0.22);
+  --bg: #1A1A1A;
+  --bg2: #222222;
+  --bg3: #2A2A2A;
+  --white: #FFFFFF;
+  --cream: #F5EDD8;
+  --mid: rgba(255,255,255,0.72);
+  --muted: rgba(255,255,255,0.45);
+  --border: rgba(255,255,255,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:'Inter',sans-serif;font-weight:300;
+  min-height:100vh;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.6;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:center;align-items:center;
+  padding:20px 48px;
+  background:rgba(26,26,26,0.94);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:400;letter-spacing:.04em;
+  color:var(--white);text-decoration:none;
+}
+.logo-cross{
+  width:30px;height:30px;
+  border:1px solid var(--gold-border);
+  display:flex;align-items:center;justify-content:center;
+}
+.logo em{font-style:normal;color:var(--gold);}
+
+/* HERO — split layout */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  padding-top:80px;
+}
+
+/* LEFT — dark */
+.hero-left{
+  background:var(--bg);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 60px 80px 52px;
+  position:relative;z-index:1;overflow:hidden;
+}
+.hero-left::before{
+  content:'';position:absolute;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(212,168,67,.09) 0%,transparent 70%);
+  top:50%;left:20%;transform:translate(-50%,-50%);pointer-events:none;
+}
+
+.opener{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(17px,1.8vw,22px);
+  font-style:italic;font-weight:300;
+  color:rgba(212,168,67,0.75);
+  margin-bottom:20px;line-height:1.4;
+  padding-left:16px;
+  border-left:2px solid rgba(212,168,67,0.35);
+  position:relative;z-index:1;
+}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(50px,5.5vw,76px);
+  font-weight:400;line-height:1.02;
+  letter-spacing:-.015em;margin-bottom:24px;
+  position:relative;z-index:1;
+}
+h1 em{font-style:italic;color:var(--gold);}
+.hero-desc{
+  font-size:17px;color:var(--mid);
+  line-height:1.75;margin-bottom:14px;max-width:480px;
+  position:relative;z-index:1;
+}
+.hero-desc strong{color:var(--white);font-weight:400;}
+
+/* Blessing */
+.blessing-strip{
+  margin-top:32px;padding:24px 28px;
+  background:var(--bg2);
+  border:1px solid var(--gold-border);
+  border-left:3px solid var(--gold);
+  position:relative;z-index:1;
+}
+.bs-label{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:10px;}
+.bs-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--white);margin-bottom:8px;line-height:1.3;}
+.bs-desc{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:14px;}
+.bs-amount-row{display:flex;align-items:baseline;gap:10px;}
+.bs-amount{
+  font-family:'Playfair Display',serif;
+  font-size:52px;color:var(--gold);line-height:1;
+  animation:glow 4s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{text-shadow:0 0 20px rgba(212,168,67,.1);}50%{text-shadow:0 0 40px rgba(212,168,67,.4);}}
+.bs-amount-sub{font-size:12px;color:var(--muted);}
+
+/* Stats */
+.stats{display:flex;margin-top:28px;border:1px solid var(--border);position:relative;z-index:1;}
+.stat{flex:1;padding:16px 20px;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);display:block;margin-bottom:4px;}
+.stat-l{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+/* RIGHT — dark form */
+.hero-right{
+  background:var(--bg2);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 56px;
+  position:relative;z-index:1;overflow-y:auto;
+}
+.form-heading{
+  font-family:'Playfair Display',serif;
+  font-size:24px;font-weight:400;font-style:italic;
+  color:var(--white);margin-bottom:6px;
+}
+.form-sub{
+  font-size:14px;color:var(--mid);
+  margin-bottom:28px;padding-bottom:22px;
+  border-bottom:1px solid var(--border);line-height:1.6;
+}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field-label{font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);}
+.f-input{
+  background:var(--bg3);border:1px solid var(--border);
+  padding:11px 13px;font-family:'Inter',sans-serif;
+  font-size:14px;color:var(--white);outline:none;transition:border-color .2s;
+}
+.f-input:focus{border-color:var(--gold-border);}
+.f-input::placeholder{color:rgba(255,255,255,.22);}
+select.f-input{cursor:pointer;appearance:none;}
+.q{margin-bottom:16px;}
+.q-q{font-size:14px;font-weight:400;color:var(--white);margin-bottom:10px;line-height:1.4;}
+.q-q span{font-size:12px;color:var(--muted);font-weight:300;}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.pill{
+  padding:6px 13px;border:1px solid var(--border);
+  background:transparent;color:var(--mid);
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:300;
+  cursor:pointer;transition:all .15s;
+}
+.pill:hover{border-color:var(--gold-border);color:var(--white);}
+.pill.on{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);}
+.q-ta{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  padding:10px 13px;font-family:'Inter',sans-serif;
+  font-size:13px;color:var(--white);resize:none;outline:none;
+  min-height:44px;line-height:1.5;transition:border-color .2s;
+}
+.q-ta:focus{border-color:var(--gold-border);}
+.q-ta::placeholder{color:rgba(255,255,255,.18);}
+.sep{height:1px;background:var(--border);margin:16px 0;}
+.email-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--white);margin-bottom:4px;}
+.email-sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.email-row{display:flex;}
+.e-input{
+  flex:1;background:var(--bg);
+  border:1px solid var(--gold-border);border-right:none;
+  padding:13px 15px;font-family:'Inter',sans-serif;
+  font-size:14px;color:var(--white);outline:none;
+}
+.e-input::placeholder{color:rgba(255,255,255,.28);}
+.e-input:focus{border-color:var(--gold);}
+.btn-go{
+  background:var(--gold);color:var(--bg);border:none;
+  padding:13px 18px;font-family:'Inter',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s;white-space:nowrap;
+}
+.btn-go:hover:not(:disabled){background:var(--gold2);}
+.btn-go:disabled{opacity:.4;cursor:not-allowed;}
+.form-note{font-size:11px;color:var(--muted);margin-top:8px;text-align:center;}
+.load{display:none;flex-direction:column;align-items:center;gap:14px;padding:32px;text-align:center;}
+.load.on{display:flex;}
+.load-cross{font-size:36px;color:var(--gold);animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.95);}50%{opacity:1;transform:scale(1.05);}}
+.load-txt{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--muted);}
+.err{display:none;margin-top:8px;padding:10px 14px;border-left:2px solid #c05050;background:rgba(192,80,80,.08);font-size:12px;color:#e08080;}
+.err.on{display:block;}
+
+/* HOW IT WORKS — dark, big numbers visible */
+.how-section{
+  padding:100px 52px;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+}
+.how-inner{max-width:1100px;margin:0 auto;}
+.section-eyebrow{
+  font-size:9px;font-weight:500;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--gold);opacity:.65;text-align:center;margin-bottom:16px;
+}
+.section-h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,4vw,52px);font-weight:400;
+  color:var(--white);text-align:center;margin-bottom:14px;line-height:1.1;
+}
+.section-h2 em{font-style:italic;color:var(--gold);}
+.section-desc{
+  font-family:'Playfair Display',serif;
+  font-size:17px;font-style:italic;color:var(--mid);
+  text-align:center;max-width:520px;margin:0 auto 64px;line-height:1.65;
+}
+
+/* Steps — big visible numbers inspired by YouVersion clarity */
+.steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+}
+.step{
+  background:var(--bg);padding:48px 32px 40px;
+  position:relative;transition:background .3s;
+  overflow:hidden;
+}
+.step:hover{background:var(--bg3);}
+
+/* BIG visible number */
+.step-num{
+  font-family:'Playfair Display',serif;
+  font-size:96px;font-weight:700;
+  color:rgba(212,168,67,0.18);
+  line-height:1;
+  margin-bottom:4px;
+  display:block;
+  letter-spacing:-.02em;
+}
+
+.step-icon{font-size:24px;margin-bottom:14px;display:block;}
+.step-name{
+  font-family:'Playfair Display',serif;
+  font-size:19px;font-weight:400;
+  color:var(--white);margin-bottom:12px;line-height:1.2;
+}
+.step-text{font-size:14px;color:var(--mid);line-height:1.72;}
+.step-tag{
+  display:inline-block;margin-top:16px;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);opacity:.6;
+  border:1px solid var(--gold-border);padding:5px 10px;
+}
+
+/* FOOTER */
+footer{
+  background:var(--bg);border-top:1px solid var(--border);
+  padding:52px 24px;text-align:center;
+}
+.footer-logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:8px;}
+.footer-tag{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--muted);margin-bottom:28px;}
+.btn-footer{
+  display:inline-block;
+  background:var(--gold);color:var(--bg);
+  padding:16px 40px;font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;transition:background .2s;cursor:pointer;border:none;
+}
+.btn-footer:hover{background:var(--gold2);}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:16px 20px;}
+  .hero{grid-template-columns:1fr;}
+  .hero-left{padding:52px 24px;}
+  .hero-right{padding:44px 24px;border-left:none;border-top:1px solid var(--border);}
+  .row2{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr 1fr;}
+  .how-section{padding:72px 24px;}
+}
+@media(max-width:480px){
+  .steps{grid-template-columns:1fr;}
+  .email-row{flex-direction:column;}
+  .e-input{border-right:1px solid var(--gold-border);border-bottom:none;}
+  .stats{flex-wrap:wrap;}
+  .stat{min-width:50%;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-cross">
+      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5.5" y="0" width="3" height="18" fill="#D4A843"/>
+        <rect x="0" y="5" width="14" height="3" fill="#D4A843"/>
+      </svg>
+    </div>
+    Dios<em>Te</em>Habla
+  </a>
+</nav>
+
+<div class="hero">
+
+  <!-- LEFT — dark -->
+  <div class="hero-left">
+    <div class="opener">Si estás aquí, es porque Dios quiere hablarte.</div>
+    <h1>Su palabra.<br>Para <em>ti.</em><br>Esta semana.</h1>
+    <p class="hero-desc">Cada semana Dios tiene algo específico para decirte. <strong>No un versículo genérico.</strong> Su palabra exacta para lo que estás viviendo hoy — con tu nombre, tu situación, este momento.</p>
+    <p class="hero-desc">Cuéntanos tu semana. Recibes la <strong>Palabra de Dios escrita y narrada solo para ti</strong> — con el versículo que necesitabas y una oración para cada día.</p>
+
+    <div class="blessing-strip">
+      <div class="bs-label">✦ La Bendición de Esta Semana</div>
+      <div class="bs-title">Cada semana Dios derrama su gracia sobre uno de nosotros.</div>
+      <div class="bs-desc">Nuestra comunidad ora junta. Y cada semana Dios elige a uno de sus miembros para recibir una bendición económica. Esta semana puede ser para ti.</div>
+      <div class="bs-amount-row">
+        <span class="bs-amount" id="blessAmt">$0</span>
+        <span class="bs-amount-sub">esta semana · <span id="memCount">0</span> miembros</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span class="stat-n" id="s1">0</span><span class="stat-l">Palabras enviadas</span></div>
+      <div class="stat"><span class="stat-n" id="s2">0</span><span class="stat-l">Familias bendecidas</span></div>
+      <div class="stat"><span class="stat-n">★ 4.9</span><span class="stat-l">Valoración</span></div>
+    </div>
+  </div>
+
+  <!-- RIGHT — dark form -->
+  <div class="hero-right">
+    <div class="form-heading">Cuéntanos tu semana</div>
+    <div class="form-sub">Dios ya lo sabe — pero quiere escucharlo de ti. Tu primera palabra es completamente gratuita.</div>
+
+    <div id="formArea">
+      <div class="row2">
+        <div class="field">
+          <span class="field-label">Tu nombre</span>
+          <input class="f-input" id="nombre" type="text" placeholder="María..." />
+        </div>
+        <div class="field">
+          <span class="field-label">Tu fe</span>
+          <select class="f-input" id="religion">
+            <option value="católica">Católica / Católico</option>
+            <option value="evangélica">Evangélica / Evangélico</option>
+            <option value="cristiana">Cristiana / Cristiano</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="q">
+        <div class="q-q">¿Qué fue lo más difícil de tu semana?</div>
+        <div class="pills">
+          <button class="pill" onclick="pill(this,'q1','Problemas familiares o de pareja')">Familia</button>
+          <button class="pill" onclick="pill(this,'q1','Dificultades económicas')">Economía</button>
+          <button class="pill" onclick="pill(this,'q1','Trabajo o estudio')">Trabajo</button>
+          <button class="pill" onclick="pill(this,'q1','Me sentí solo/a')">Soledad</button>
+          <button class="pill" onclick="pill(this,'q1','Problemas de salud')">Salud</button>
+          <button class="pill" onclick="pill(this,'q1','Estrés y ansiedad')">Estrés</button>
+          <button class="pill" onclick="pill(this,'q1','Una pérdida')">Una pérdida</button>
+        </div>
+        <textarea class="q-ta" id="q1" rows="2" placeholder="O cuéntanos con tus palabras..."></textarea>
+      </div>
+
+      <div class="q">
+        <div class="q-q">¿Qué le pides a Dios para esta semana?</div>
+        <div class="pills">
+          <button class="pill" onclick="pill(this,'q2','Paz y tranquilidad interior')">Paz</button>
+          <button class="pill" onclick="pill(this,'q2','Fuerzas para seguir')">Fuerzas</button>
+          <button class="pill" onclick="pill(this,'q2','Una señal de Dios')">Una señal</button>
+          <button class="pill" onclick="pill(this,'q2','Provisión económica')">Provisión</button>
+          <button class="pill" onclick="pill(this,'q2','Sanidad')">Sanidad</button>
+          <button class="pill" onclick="pill(this,'q2','Más fe')">Más fe</button>
+        </div>
+        <textarea class="q-ta" id="q2" rows="2" placeholder="O cuéntanos con tus palabras..."></textarea>
+      </div>
+
+      <div class="q">
+        <div class="q-q">¿Hay algo que te pesa? <span>Opcional</span></div>
+        <div class="pills">
+          <button class="pill" onclick="pill(this,'q3','Cargo con culpa')">Culpa</button>
+          <button class="pill" onclick="pill(this,'q3','Tengo miedo al futuro')">Miedo</button>
+          <button class="pill" onclick="pill(this,'q3','Necesito perdonar')">Perdón</button>
+          <button class="pill" onclick="pill(this,'q3','No me siento suficiente')">Inseguridad</button>
+          <button class="pill" onclick="pill(this,'q3','Estoy bien, gracias a Dios')">Estoy bien 🙏</button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="email-title">¿A dónde te enviamos la Palabra?</div>
+      <div class="email-sub">Gratis. Sin tarjeta. Sin compromisos.</div>
+      <div class="email-row">
+        <input class="e-input" id="emailInput" type="email" placeholder="tu@email.com" />
+        <button class="btn-go" id="btnGen" onclick="generar()">Recibir La Palabra de Dios Gratis →</button>
+      </div>
+      <div class="form-note">Dios quiere acompañarte esta semana. Esta es su manera.</div>
+      <div class="err" id="errMsg"></div>
+    </div>
+
+    <div class="load" id="loadWrap">
+      <div class="load-cross">✝</div>
+      <div class="load-txt">Dios está preparando tu palabra...</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="how-inner">
+    <div class="section-eyebrow">✦ &nbsp; Cómo funciona &nbsp; ✦</div>
+    <h2 class="section-h2">Cuatro momentos.<br><em>Una semana contigo.</em></h2>
+    <p class="section-desc">Desde que abres tu corazón hasta que Dios te acompaña cada mañana.</p>
+    <div class="steps">
+
+      <div class="step">
+        <span class="step-num">01</span>
+        <span class="step-icon">🙏</span>
+        <div class="step-name">Abre tu corazón</div>
+        <p class="step-text">Cuéntanos cómo estuvo tu semana — lo que te pesó, lo que agradeces, lo que le pides a Dios. Sin filtros. Él ya lo sabe, pero quiere escucharlo de ti.</p>
+        <span class="step-tag">Cada semana</span>
+      </div>
+
+      <div class="step">
+        <span class="step-num">02</span>
+        <span class="step-icon">🎙️</span>
+        <div class="step-name">Tu palabra llega narrada</div>
+        <p class="step-text">Cada domingo recibes la Palabra de Dios escrita y narrada en audio — con tu nombre, el versículo exacto para lo que estás viviendo, y una oración íntima solo para ti.</p>
+        <span class="step-tag">Cada domingo</span>
+      </div>
+
+      <div class="step">
+        <span class="step-num">03</span>
+        <span class="step-icon">✝</span>
+        <div class="step-name">Dios te acompaña cada día</div>
+        <p class="step-text">De lunes a sábado recibes una oración personalizada para ese día — escrita según tu semana y lo que necesitas. Para que Dios esté contigo de mañana en mañana.</p>
+        <span class="step-tag">Lunes a sábado</span>
+      </div>
+
+      <div class="step">
+        <span class="step-num">04</span>
+        <span class="step-icon">✨</span>
+        <div class="step-name">La bendición te encuentra</div>
+        <p class="step-text">Cada semana Dios derrama su bendición económica sobre uno de los miembros de nuestra comunidad. No es azar — es Su manera de moverse entre los suyos.</p>
+        <span class="step-tag">Cada semana</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DiosTeHabla</div>
+  <div class="footer-tag">Su palabra. Para ti. Cada semana.</div>
+  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="btn-footer">
+    ✝ &nbsp; Recibir La Palabra de Dios Gratis
+  </a>
+</footer>
+
+<script>
+function countUp(id,target,prefix='',dur=2000){
+  
+  const el=document.getElementById(id);if(!el)return;
+  let v=0,step=target/(dur/16);
+  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=prefix+Math.round(v).toLocaleString();if(v>=target)clearInterval(t);},16);
+}
+window.addEventListener('load',()=>{
+  countUp('s1',3241);countUp('s2',1187);
+  countUp('blessAmt',348,'$');
+  document.getElementById('memCount').textContent='174';
+});
+function pill(btn,field,val){
+  const g=btn.parentElement,was=btn.classList.contains('on');
+  g.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  const ta=document.getElementById(field);
+  if(!was){btn.classList.add('on');btn._v=val;if(ta&&(!ta.value||ta.value===btn._v))ta.value=val;}
+  else{if(ta&&ta.value===val)ta.value='';}
+}
+async function generar(){
+  const nombre=document.getElementById('nombre').value.trim()||'amigo/a';
+  const religion=document.getElementById('religion').value;
+  const q1=document.getElementById('q1').value.trim();
+  const q2=document.getElementById('q2').value.trim();
+  const q3el=document.getElementById('q3');
+  const q3=q3el?q3el.value.trim():'';
+  const email=document.getElementById('emailInput').value.trim();
+  if(!email||!email.includes('@')){showErr('Por favor ingresa un email válido.');return;}
+  if(!q1&&!q2){showErr('Cuéntanos al menos algo de tu semana.');return;}
+  document.getElementById('btnGen').disabled=true;
+  document.getElementById('formArea').style.opacity='.4';
+  document.getElementById('loadWrap').classList.add('on');hideErr();
+  const hoy=new Date();
+  const dias=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const prompt=`Eres un escritor espiritual profundamente humano. Escribes la Palabra de Dios personalizada en español para personas de fe ${religion}. Tono íntimo, presente, cálido.
+Nombre: ${nombre} | Fe: ${religion}
+Lo más difícil: ${q1||'No mencionó'} | Le pide a Dios: ${q2||'No mencionó'} | Le pesa: ${q3||'Nada'}
+Escribe la Palabra de Dios. Sin títulos. Sin asteriscos. Solo texto:
+Querido/a ${nombre},
+[3 párrafos íntimos. Habla como si Dios le hablara ahora. Versículo bíblico REAL entre comillas con referencia. Conecta con lo que vivió. Oración de 4 líneas que empiece "Señor," termine "Amén." Cierra con esperanza.]
+— Con amor eterno, DiosTeHabla
+✦ Tu oración para cada día ✦
+${dias[(hoy.getDay()+1)%7]}: [versículo REAL] — [oración de una línea]
+${dias[(hoy.getDay()+2)%7]}: [versículo REAL] — [oración de una línea]
+${dias[(hoy.getDay()+3)%7]}: [versículo REAL] — [oración de una línea]
+${dias[(hoy.getDay()+4)%7]}: [versículo REAL] — [oración de una línea]
+${dias[(hoy.getDay()+5)%7]}: [versículo REAL] — [oración de una línea]
+${dias[(hoy.getDay()+6)%7]}: [versículo REAL] — [oración de una línea]
+REGLAS: Versículos REALES. Presente. Íntimo. Solo texto.`;
+  try{
+    const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const data=await res.json();
+    const carta=data.carta||'';if(!carta)throw new Error();
+    sessionStorage.setItem('cf_carta',carta);sessionStorage.setItem('cf_nombre',nombre);
+    sessionStorage.setItem('cf_email',email);sessionStorage.setItem('cf_sorteo','#'+Math.floor(1000+Math.random()*9000));
+    sessionStorage.setItem('cf_price','$20/mes');sessionStorage.setItem('cf_brand','DiosTeHabla');
+    window.location.href='diostehabla-final-page2.html';
+  }catch(e){
+    document.getElementById('btnGen').disabled=false;
+    document.getElementById('formArea').style.opacity='1';
+    document.getElementById('loadWrap').classList.remove('on');
+    showErr('Hubo un problema. Por favor intenta de nuevo.');
+  }
+}
+function showErr(m){const e=document.getElementById('errMsg');e.textContent=m;e.classList.add('on');}
+function hideErr(){document.getElementById('errMsg').classList.remove('on');}
+</script>
+</body>
+</html>

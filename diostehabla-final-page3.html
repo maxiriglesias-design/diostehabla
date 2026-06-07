@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiosTeHabla — Únete a la Comunidad</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #D4A843;
+  --gold2: #E8C055;
+  --gold-soft: rgba(212,168,67,0.11);
+  --gold-border: rgba(212,168,67,0.22);
+  --gold-line: rgba(212,168,67,0.18);
+  --bg: #1A1A1A;
+  --bg2: #222222;
+  --bg3: #2A2A2A;
+  --white: #FFFFFF;
+  --cream: #F5EDD8;
+  --mid: rgba(255,255,255,0.72);
+  --muted: rgba(255,255,255,0.45);
+  --border: rgba(255,255,255,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;justify-content:center;align-items:center;padding:18px 48px;background:rgba(26,26,26,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:20px;font-weight:400;letter-spacing:.04em;color:var(--white);text-decoration:none;}
+.logo-cross{width:28px;height:28px;border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;}
+.logo em{font-style:normal;color:var(--gold);}
+
+/* SECTIONS */
+.section{max-width:780px;margin:0 auto;padding:0 40px;}
+
+/* HERO */
+.hero-sales{
+  text-align:center;padding:80px 40px 64px;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.hero-sales::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 0%,rgba(212,168,67,.07) 0%,transparent 65%);pointer-events:none;}
+.hero-eyebrow{font-size:9px;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:20px;position:relative;z-index:1;}
+.hero-sales h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,60px);font-weight:400;
+  line-height:1.08;margin-bottom:20px;position:relative;z-index:1;
+}
+.hero-sales h1 em{font-style:italic;color:var(--gold);}
+.hero-sales-sub{
+  font-family:'Playfair Display',serif;
+  font-size:19px;font-style:italic;color:var(--mid);
+  max-width:560px;margin:0 auto;line-height:1.65;position:relative;z-index:1;
+}
+
+/* WHAT YOU GET */
+.what-section{padding:80px 40px;border-bottom:1px solid var(--border);}
+.section-eyebrow{font-size:9px;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:16px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,42px);font-weight:400;color:var(--white);margin-bottom:48px;line-height:1.1;}
+.section-title em{font-style:italic;color:var(--gold);}
+
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.feature{background:var(--bg2);padding:36px 32px;}
+.feature-icon{font-size:28px;margin-bottom:16px;display:block;}
+.feature-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--white);margin-bottom:10px;}
+.feature-desc{font-size:14px;color:var(--mid);line-height:1.7;}
+.feature-tag{display:inline-block;margin-top:14px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.6;border:1px solid var(--gold-border);padding:4px 10px;}
+
+/* TESTIMONIALS */
+.testi-section{padding:80px 40px;border-bottom:1px solid var(--border);background:var(--bg2);}
+.testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:48px;}
+.tcard{background:var(--bg3);padding:32px 28px;}
+.tcard-stars{color:var(--gold);font-size:12px;letter-spacing:3px;margin-bottom:14px;opacity:.8;}
+.tcard-text{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--mid);line-height:1.72;margin-bottom:18px;}
+.tcard-author{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.6;}
+
+/* PRICE STORY */
+.price-section{padding:80px 40px;border-bottom:1px solid var(--border);}
+.price-story{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-style:italic;
+  color:var(--mid);line-height:1.8;
+  max-width:640px;margin:0 auto 48px;
+  text-align:center;
+}
+.price-story strong{font-style:normal;font-weight:400;color:var(--white);}
+
+/* Price progression */
+.price-journey{display:flex;flex-direction:column;gap:1px;max-width:560px;margin:0 auto 48px;}
+
+.price-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 28px;background:var(--bg2);
+  position:relative;overflow:hidden;
+}
+.price-row-label{font-size:13px;color:var(--mid);}
+.price-row-amount{
+  font-family:'Playfair Display',serif;
+  font-size:28px;color:var(--muted);
+  text-decoration:line-through;
+  opacity:.5;
+}
+.price-row.mid .price-row-amount{font-size:28px;color:var(--muted);opacity:.6;}
+.price-row.final{background:var(--gold-soft);border:1px solid var(--gold-border);}
+.price-row.final .price-row-label{color:var(--white);font-weight:400;}
+.price-row.final .price-row-amount{
+  font-size:44px;color:var(--gold);
+  text-decoration:none;opacity:1;
+}
+.price-row-tag{
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold-border);
+  padding:4px 10px;margin-left:12px;white-space:nowrap;
+}
+
+/* BLESSING */
+.blessing-section{
+  padding:72px 40px;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  text-align:center;
+}
+.blessing-amount{
+  font-family:'Playfair Display',serif;
+  font-size:80px;color:var(--gold);display:block;
+  animation:glow 4s ease-in-out infinite;margin:16px 0 8px;
+  line-height:1;
+}
+@keyframes glow{0%,100%{text-shadow:0 0 20px rgba(212,168,67,.12);}50%{text-shadow:0 0 50px rgba(212,168,67,.4);}}
+.blessing-sub{font-size:14px;color:var(--mid);line-height:1.65;max-width:480px;margin:0 auto 20px;}
+.blessing-note{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.5;}
+
+/* FINAL CTA */
+.cta-section{padding:80px 40px;text-align:center;}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:400;color:var(--white);margin-bottom:16px;line-height:1.1;}
+.cta-title em{font-style:italic;color:var(--gold);}
+.cta-sub{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--mid);margin-bottom:48px;line-height:1.65;}
+
+.cta-box{
+  background:var(--bg2);border:1px solid var(--gold-border);
+  padding:48px 52px;max-width:520px;margin:0 auto;
+}
+.cta-price-row{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-bottom:6px;}
+.cta-price{font-family:'Playfair Display',serif;font-size:64px;color:var(--gold);line-height:1;}
+.cta-period{font-size:18px;color:var(--muted);}
+.cta-price-note{font-size:13px;color:var(--muted);margin-bottom:32px;}
+
+.feats{list-style:none;margin-bottom:32px;text-align:left;}
+.feats li{padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--mid);display:flex;align-items:flex-start;gap:12px;line-height:1.45;}
+.feats li:last-child{border-bottom:none;}
+.fi{color:var(--gold);font-size:12px;margin-top:2px;flex-shrink:0;}
+
+.btn-cta-main{
+  display:block;width:100%;
+  background:var(--gold);color:var(--bg);border:none;
+  padding:18px;font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;margin-bottom:12px;
+  text-align:center;text-decoration:none;
+}
+.btn-cta-main:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 36px rgba(212,168,67,.25);}
+.cta-guarantee{font-size:11px;color:var(--muted);text-align:center;}
+
+/* Referral teaser */
+.ref-teaser{
+  margin-top:32px;padding:20px 24px;
+  background:var(--gold-soft);border:1px solid var(--gold-line);
+  text-align:center;
+}
+.ref-teaser-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--white);margin-bottom:6px;}
+.ref-teaser-desc{font-size:13px;color:var(--mid);}
+.ref-teaser-amount{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);}
+
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;background:var(--bg);}
+.footer-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px;}
+.footer-tag{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--muted);}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .what-section,.price-section,.cta-section,.testi-section,.blessing-section{padding:56px 24px;}
+  .hero-sales{padding:60px 24px 48px;}
+  .features-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .cta-box{padding:36px 28px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="diostehabla-final-page1.html" class="logo">
+    <div class="logo-cross">
+      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5.5" y="0" width="3" height="18" fill="#D4A843"/>
+        <rect x="0" y="5" width="14" height="3" fill="#D4A843"/>
+      </svg>
+    </div>
+    Dios<em>Te</em>Habla
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero-sales">
+  <div class="hero-eyebrow">✦ &nbsp; Ya viste lo que Dios puede decirte &nbsp; ✦</div>
+  <h1>¿Qué pasaría si<br>recibieras esto <em>cada semana?</em></h1>
+  <p class="hero-sales-sub">Una palabra nueva. Para lo que estás viviendo. Con tu nombre. Cada domingo en tu email. Y una oración para acompañarte cada mañana de la semana.</p>
+</div>
+
+<!-- WHAT YOU GET -->
+<div class="what-section">
+  <div style="max-width:780px;margin:0 auto;">
+    <div class="section-eyebrow">✦ Todo lo que recibes</div>
+    <div class="section-title">Cada semana, <em>cuatro formas</em><br>en que Dios te acompaña.</div>
+    <div class="features-grid">
+
+      <div class="feature">
+        <span class="feature-icon">🎙️</span>
+        <div class="feature-name">La Palabra narrada en audio</div>
+        <p class="feature-desc">Tu carta bíblica personalizada leída con una voz cálida. Con tu nombre. Con lo que estás viviendo. Como si Dios te hablara directo al oído.</p>
+        <span class="feature-tag">Cada domingo</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">✝</span>
+        <div class="feature-name">Una oración para cada día</div>
+        <p class="feature-desc">De lunes a sábado recibes una oración escrita según tu semana y tu situación. Para que Dios esté contigo de mañana en mañana, no solo los domingos.</p>
+        <span class="feature-tag">Lunes a sábado</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">📖</span>
+        <div class="feature-name">El versículo exacto para ti</div>
+        <p class="feature-desc">No uno genérico. El versículo que responde a lo que contaste — tu situación, tu semana, tu corazón. Encontrado entre miles solo para ti.</p>
+        <span class="feature-tag">Personalizado</span>
+      </div>
+
+      <div class="feature">
+        <span class="feature-icon">✨</span>
+        <div class="feature-name">La bendición semanal</div>
+        <p class="feature-desc">Cada semana Dios derrama su gracia económica sobre uno de los miembros de nuestra comunidad. No es azar. Es Su manera de moverse entre los suyos.</p>
+        <span class="feature-tag">Cada semana</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testi-section">
+  <div style="max-width:780px;margin:0 auto;">
+    <div class="section-eyebrow">✦ Lo que dicen quienes ya la reciben</div>
+    <div class="section-title">Palabras que <em>cambian semanas.</em></div>
+    <div class="testi-grid">
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"Llevaba semanas con ese peso en el pecho. La carta lo dijo con palabras que yo no tenía. Lloré diez minutos. No podía creer que alguien supiera exactamente lo que necesitaba escuchar."</p>
+        <div class="tcard-author">✦ &nbsp; María G. &nbsp;·&nbsp; Miami, FL</div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"Mi esposo no cree en nada. Le mostré mi carta y me preguntó cómo sabían lo que estábamos pasando. Ahora él también la recibe cada semana."</p>
+        <div class="tcard-author">✦ &nbsp; Rosa M. &nbsp;·&nbsp; Orlando, FL</div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"La escucho mientras manejo al trabajo. Esa voz con mi nombre... es como si Dios me hablara directo. Me ha cambiado cómo empiezo cada semana."</p>
+        <div class="tcard-author">✦ &nbsp; Carlos R. &nbsp;·&nbsp; Houston, TX</div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <p class="tcard-text">"La mandé a mi mamá en Colombia. Me llamó llorando. Dijo que era la primera vez en años que alguien la veía de verdad. Ahora las dos la recibimos."</p>
+        <div class="tcard-author">✦ &nbsp; Ana L. &nbsp;·&nbsp; Chicago, IL</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICE STORY -->
+<div class="price-section">
+  <div style="max-width:780px;margin:0 auto;">
+    <div class="section-eyebrow" style="text-align:center;">✦ Por qué cuesta lo que cuesta</div>
+    <div class="section-title" style="text-align:center;margin-bottom:32px;">Un precio que <em>tiene sentido.</em></div>
+
+    <p class="price-story">
+      DiosTeHabla no es una app genérica. Cada palabra está escrita específicamente para ti — tu nombre, tu semana, tu situación. Narrada en audio. Con una oración para cada día.
+      <br><br>
+      Eso tiene un valor real. Y por un tiempo, así lo cobramos.
+      <br><br>
+      Pero creemos que la Palabra de Dios no debería ser algo reservado para quienes pueden pagar más. <strong>Hay demasiadas personas que la necesitan.</strong> Y esa convicción nos llevó a donde estamos hoy.
+    </p>
+
+    <div class="price-journey">
+      <div class="price-row">
+        <div>
+          <div class="price-row-label">Precio de lanzamiento</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px;">Carta + audio + oraciones diarias personalizadas</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="price-row-amount">$199</div>
+          <div class="price-row-tag">Por mes</div>
+        </div>
+      </div>
+      <div class="price-row mid">
+        <div>
+          <div class="price-row-label">Precio reducido</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px;">Después de escuchar a nuestra comunidad</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="price-row-amount">$79</div>
+          <div class="price-row-tag">Por mes</div>
+        </div>
+      </div>
+      <div class="price-row final">
+        <div>
+          <div class="price-row-label">Lo que decidimos cobrar hoy</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px;">Para que llegue a quien lo necesita</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="price-row-amount">$19.99</div>
+          <div class="price-row-tag">Por mes</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="price-story" style="font-size:16px;margin-bottom:0;">
+      <strong>Menos que un café por semana.</strong> Y a cambio, Dios te acompaña todos los días — con su palabra, con su presencia, con una oración escrita para lo que estás viviendo.
+    </p>
+
+  </div>
+</div>
+
+<!-- BLESSING -->
+<div class="blessing-section">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <div class="section-eyebrow">✦ Y hay algo más que no existe en ningún otro lugar</div>
+    <div class="section-title" style="text-align:center;font-size:clamp(36px,5vw,64px);margin-bottom:8px;line-height:1.05;">La bendición <em>semanal.</em></div>
+    <p style="font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--mid);margin-bottom:32px;line-height:1.65;">Cada semana Dios derrama su gracia económica sobre uno de los miembros de nuestra comunidad. No es un sorteo. No es azar. Es Su manera de moverse entre los suyos.</p>
+    <span class="blessing-amount" id="blessAmt">$0</span>
+    <p style="font-size:15px;color:var(--mid);margin:16px auto 8px;max-width:480px;line-height:1.65;">Esta semana el pozo es de <strong style="color:var(--white);">$348</strong>. Cuando te suscribes, participas. <strong style="color:var(--white);">Esta semana puede ser para ti.</strong></p>
+    <div class="blessing-note" style="margin-top:20px;">✦ &nbsp; Cuantos más seamos · más grande la bendición &nbsp; ✦</div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="cta-section">
+  <div style="max-width:780px;margin:0 auto;">
+    <div class="cta-title">Todo listo.<br><em>Solo falta tu sí.</em></div>
+    <p class="cta-sub">Únete hoy y esta semana ya recibes tu primera palabra semanal narrada. Cancela cuando quieras.</p>
+
+    <div class="cta-box">
+      <div class="cta-price-row">
+        <div class="cta-price">$19.99</div>
+        <div class="cta-period">/ mes</div>
+      </div>
+      <div class="cta-price-note">Cancela cuando quieras · Sin compromisos</div>
+
+      <ul class="feats">
+        <li><span class="fi">✝</span>La Palabra de Dios personalizada cada semana</li>
+        <li><span class="fi">✝</span>Audio narrado — escúchala mientras vives</li>
+        <li><span class="fi">✝</span>Una oración personalizada para cada día</li>
+        <li><span class="fi">✝</span>Participas en la bendición semanal de la comunidad</li>
+        <li><span class="fi">✝</span>Ganas $5 por cada persona que traes</li>
+      </ul>
+
+      <a href="#" onclick="suscribir()" class="btn-cta-main">✝ &nbsp; Suscribirme Ahora — $19.99/mes</a>
+      <div class="cta-guarantee">✦ &nbsp; Primeros 7 días: si no es para ti, te devolvemos el dinero.</div>
+
+      <div class="ref-teaser">
+        <div class="ref-teaser-title">¿Hay alguien en tu vida que necesita esto?</div>
+        <div class="ref-teaser-desc" style="margin-bottom:12px;line-height:1.65;">Si conoces a alguien — un familiar, un amigo, alguien que está pasando por un momento difícil — y sientes que esta palabra podría acompañarlos, compártela con ellos.<br><br>Dios bendice también ese gesto. Cada vez que alguien que recomendaste se une a la comunidad, recibes <strong style="color:var(--white);">$5 ese mes</strong> — como señal de que lo que sembraste volvió a ti.</div>
+        <div class="ref-teaser-amount">$5 por cada persona que acompañas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">DiosTeHabla</div>
+  <div class="footer-tag">Su palabra. Para ti. Cada semana.</div>
+</footer>
+
+<script>
+function animCount(id,target,prefix='',dur=2000){
+  const el=document.getElementById(id);if(!el)return;
+  let v=0,step=target/(dur/16);
+  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=prefix+Math.round(v).toLocaleString();if(v>=target)clearInterval(t);},16);
+}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){animCount('blessAmt',348,'$');obs.disconnect();}
+  });
+},{threshold:.3});
+obs.observe(document.getElementById('blessAmt'));
+
+function suscribir(){
+  // → Conectar con Whop aquí
+  alert('Redirigiendo a la suscripción...');
+}
+</script>
+</body>
+</html>
