@@ -71,6 +71,56 @@ nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between
 .word-sig-name{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);letter-spacing:.1em;}
 .word-sig-tag{font-size:10px;color:#7a5a20;margin-top:2px;font-style:italic;}
 
+/* Daily preview */
+.daily-preview{
+  margin-top:28px;margin-bottom:28px;
+  background:var(--bg2);
+  border:1px solid var(--gold-border);
+  border-left:3px solid var(--gold);
+  padding:36px 40px;
+}
+.dp-eyebrow{
+  font-size:9px;font-weight:500;letter-spacing:.38em;
+  text-transform:uppercase;color:var(--gold);opacity:.65;
+  margin-bottom:14px;
+}
+.dp-title{
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-style:italic;font-weight:400;
+  color:var(--white);margin-bottom:8px;line-height:1.3;
+}
+.dp-subtitle{
+  font-size:13px;color:var(--mid);
+  line-height:1.65;margin-bottom:28px;
+  padding-bottom:20px;border-bottom:1px solid var(--border);
+}
+.dp-days{display:flex;flex-direction:column;gap:0;}
+.dp-day{
+  padding:16px 0;
+  border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:180px 1fr;
+  gap:20px;align-items:start;
+}
+.dp-day:last-child{border-bottom:none;}
+.dp-day-header{display:flex;flex-direction:column;gap:4px;}
+.dp-day-name{
+  font-size:12px;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);
+}
+.dp-day-theme{
+  font-family:'Playfair Display',serif;
+  font-size:15px;font-style:italic;color:var(--white);
+}
+.dp-day-book{
+  font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--muted);
+  margin-top:2px;
+}
+.dp-day-desc{
+  font-size:13px;color:var(--mid);
+  line-height:1.65;
+}
+
 /* Actions */
 .actions{display:flex;gap:10px;margin-bottom:48px;}
 .btn-a{flex:1;padding:14px;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;}
@@ -166,6 +216,9 @@ footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;ba
     <button class="btn-a btn-a-out" onclick="compartir()">Compartir</button>
   </div>
 
+  <!-- Daily preview -->
+  <div class="daily-preview" id="dailyPreview"></div>
+
   <!-- Bridge to page 3 -->
   <div class="bridge">
     <div class="bridge-eyebrow">✦ Dios tiene más para ti</div>
@@ -191,6 +244,44 @@ window.addEventListener('load',()=>{
   document.getElementById('emailShow').textContent=email;
   document.getElementById('wordBody').textContent=carta||'Hubo un problema. Por favor vuelve a la página anterior.';
   document.getElementById('chipNum').textContent=sorteo;
+
+  // Build daily preview from carta
+  const hoy=new Date();
+  const dias=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  
+  // Extract daily lines from carta
+  const temas=[
+    {tema:'Descanso',libro:'Mateo 11',desc:'Dios te invita a soltar lo que cargás. Hoy aprenderás a encontrar descanso verdadero en Él.'},
+    {tema:'Valentía',libro:'Isaías 41',desc:'El miedo no tiene la última palabra. Dios te recuerda que camina contigo en cada paso.'},
+    {tema:'Paz interior',libro:'Juan 14',desc:'La paz que Dios da no depende de lo que pase afuera. Hoy la recibirás en tu corazón.'},
+    {tema:'Señales de Dios',libro:'Mateo 7',desc:'Dios habla en lo cotidiano. Hoy aprenderás a reconocer su voz en los pequeños momentos.'},
+    {tema:'Luz en el camino',libro:'Salmo 27',desc:'Aunque no veas el camino completo, Él ilumina el paso que sigue. Confía en su guía.'},
+    {tema:'Fuerzas renovadas',libro:'Filipenses 4',desc:'Una nueva semana comienza. Dios ya fue adelante a prepararla para ti.'},
+  ];
+
+  let html=`
+    <div class="dp-eyebrow">✦ Esta semana Dios camina contigo ✦</div>
+    <div class="dp-title">Cada mañana, una palabra para ese día.</div>
+    <div class="dp-subtitle">No estarás solo/a ni un día de esta semana. Cada mañana recibirás en tu email una palabra de Dios escrita especialmente para ese momento exacto.</div>
+    <div class="dp-days">
+  `;
+
+  for(let i=0;i<6;i++){
+    const diaIdx=(hoy.getDay()+1+i)%7;
+    const t=temas[i];
+    html+=`
+      <div class="dp-day">
+        <div class="dp-day-header">
+          <div class="dp-day-name">${dias[diaIdx]}</div>
+          <div class="dp-day-theme">${t.tema}</div>
+          <div class="dp-day-book">${t.libro}</div>
+        </div>
+        <div class="dp-day-desc">${t.desc}</div>
+      </div>
+    `;
+  }
+  html+=`</div>`;
+  document.getElementById('dailyPreview').innerHTML=html;
 });
 function irAPagina3(){ window.location.href='diostehabla-final-page3.html'; }
 function compartir(){
