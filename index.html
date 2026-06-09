@@ -507,21 +507,62 @@ async function generar(){
   document.getElementById('loadWrap').classList.add('on');hideErr();
   const hoy=new Date();
   const dias=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  const prompt=`Eres un escritor espiritual profundamente humano. Escribes la Palabra de Dios personalizada en español para personas de fe ${religion}. Tono íntimo, presente, cálido.
-Nombre: ${nombre} | Fe: ${religion}
-Lo más difícil: ${q1||'No mencionó'} | Le pide a Dios: ${q2||'No mencionó'} | Le pesa: ${q3||'Nada'}
-Escribe la Palabra de Dios. Sin títulos. Sin asteriscos. Solo texto:
+  const prompt=`Eres un escritor espiritual profundamente humano. Tu misión es escribir la Palabra de Dios personalizada para ${nombre}, una persona de fe ${religion}. 
+
+Esta carta será narrada en audio — debe durar entre 3 y 5 minutos cuando se lee en voz alta. Eso equivale a entre 500 y 700 palabras en el cuerpo principal. Escribe con esa extensión.
+
+INFORMACIÓN DE ${nombre.toUpperCase()}:
+- Lo más difícil de su semana: ${q1||'No lo mencionó, pero Dios lo sabe'}
+- Lo que le pide a Dios: ${q2||'No lo mencionó, pero Dios lo ve'}
+- Lo que le pesa en el corazón: ${q3||'No lo mencionó'}
+
+ESTILO Y TONO:
+- Habla como si Dios mismo le estuviera hablando directamente a ${nombre}
+- Usa su nombre al menos 4 veces durante la carta
+- Tono íntimo, cálido, presente — como una carta de alguien que te conoce profundamente
+- No genérico — cada párrafo debe conectar específicamente con lo que vivió
+- Usa metáforas naturales: el agua, la luz, el camino, las estaciones
+- Alterna entre momentos de consuela, de fortaleza, y de esperanza
+- Que se sienta como si Dios hubiera estado observando su semana exacta
+
+ESTRUCTURA OBLIGATORIA (sin títulos, sin asteriscos, solo texto corrido):
+
 Querido/a ${nombre},
-[3 párrafos íntimos. Habla como si Dios le hablara ahora. Versículo bíblico REAL entre comillas con referencia. Conecta con lo que vivió. Oración de 4 líneas que empiece "Señor," termine "Amén." Cierra con esperanza.]
+
+[PÁRRAFO 1 - El encuentro: 80-100 palabras]
+Abre reconociendo exactamente lo que vivió esta semana. Nómbralo. Que ${nombre} sienta que Dios estuvo ahí. Empieza con algo que sorprenda — no con "Dios te ama" genérico.
+
+[PÁRRAFO 2 - La palabra: 80-100 palabras]
+Introduce UN versículo bíblico REAL y específico entre comillas con su referencia exacta. Explica por qué ese versículo es la respuesta exacta a lo que ${nombre} está viviendo. Hazlo concreto.
+
+[PÁRRAFO 3 - La profundidad: 80-100 palabras]
+Va más profundo. Habla de lo que ${nombre} no dijo pero quizás siente. El miedo detrás del miedo. La esperanza detrás del cansancio. Dios viendo más allá de las palabras.
+
+[PÁRRAFO 4 - La promesa: 80-100 palabras]
+Una promesa concreta para esta semana. No vaga — específica. Qué va a cambiar, qué va a sentir diferente, cómo va a notar la presencia de Dios en los próximos días.
+
+[PÁRRAFO 5 - La oración: 80-100 palabras]
+Una oración íntima escrita en primera persona del plural — como si Dios y ${nombre} oraran juntos. Que empiece con "Señor," y termine con "Amén." Que mencione su situación específica.
+
+[CIERRE: 30-40 palabras]
+Cierra con calidez y esperanza. Que ${nombre} sienta que no está solo/a esta semana.
+
 — Con amor eterno, DiosTeHabla
+
 ✦ Tu oración para cada día ✦
-${dias[(hoy.getDay()+1)%7]}: [versículo REAL] — [oración de una línea]
-${dias[(hoy.getDay()+2)%7]}: [versículo REAL] — [oración de una línea]
-${dias[(hoy.getDay()+3)%7]}: [versículo REAL] — [oración de una línea]
-${dias[(hoy.getDay()+4)%7]}: [versículo REAL] — [oración de una línea]
-${dias[(hoy.getDay()+5)%7]}: [versículo REAL] — [oración de una línea]
-${dias[(hoy.getDay()+6)%7]}: [versículo REAL] — [oración de una línea]
-REGLAS: Versículos REALES. Presente. Íntimo. Solo texto.`;
+${dias[(hoy.getDay()+1)%7]}: "[versículo REAL corto]" — [declaración de fe de 15-20 palabras en presente, específica para lo que vive ${nombre}]
+${dias[(hoy.getDay()+2)%7]}: "[versículo REAL corto]" — [declaración de fe de 15-20 palabras en presente]
+${dias[(hoy.getDay()+3)%7]}: "[versículo REAL corto]" — [declaración de fe de 15-20 palabras en presente]
+${dias[(hoy.getDay()+4)%7]}: "[versículo REAL corto]" — [declaración de fe de 15-20 palabras en presente]
+${dias[(hoy.getDay()+5)%7]}: "[versículo REAL corto]" — [declaración de fe de 15-20 palabras en presente]
+${dias[(hoy.getDay()+6)%7]}: "[versículo REAL corto]" — [declaración de fe de 15-20 palabras en presente]
+
+REGLAS ABSOLUTAS:
+- Versículos 100% reales y verificables con su referencia exacta
+- El nombre ${nombre} aparece al menos 4 veces
+- Mínimo 500 palabras en el cuerpo principal
+- Cero frases genéricas — todo conectado a su semana específica
+- Solo texto corrido, sin títulos, sin asteriscos, sin markdown`;
   try{
     const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
     const data=await res.json();
