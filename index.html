@@ -563,12 +563,13 @@ REGLAS ABSOLUTAS:
 - Mínimo 500 palabras en el cuerpo principal
 - Cero frases genéricas — todo conectado a su semana específica
 - Solo texto corrido, sin títulos, sin asteriscos, sin markdown`;
+  const sorteoNum='#'+Math.floor(1000+Math.random()*9000);
   try{
-    const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,nombre,email,sorteo:sorteoNum})});
     const data=await res.json();
     const carta=data.carta||'';if(!carta)throw new Error();
     sessionStorage.setItem('cf_carta',carta);sessionStorage.setItem('cf_nombre',nombre);
-    sessionStorage.setItem('cf_email',email);sessionStorage.setItem('cf_sorteo','#'+Math.floor(1000+Math.random()*9000));
+    sessionStorage.setItem('cf_email',email);sessionStorage.setItem('cf_sorteo',sorteoNum);
     sessionStorage.setItem('cf_price','$20/mes');sessionStorage.setItem('cf_brand','DiosTeHabla');
     window.location.href='diostehabla-final-page2.html';
   }catch(e){
