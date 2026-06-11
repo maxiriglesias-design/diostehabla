@@ -16,11 +16,8 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { prompt } = JSON.parse(event.body);
+    const { prompt, nombre, email, sorteo } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
-
-    console.log('API Key exists:', !!apiKey);
-    console.log('API Key prefix:', apiKey ? apiKey.substring(0, 10) : 'MISSING');
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -37,10 +34,16 @@ exports.handler = async (event) => {
     });
 
     const data = await response.json();
-    console.log('Anthropic response status:', response.status);
-    console.log('Anthropic response:', JSON.stringify(data).substring(0, 200));
-
     const carta = data?.content?.[0]?.text || '';
+
+    // Send to n8n webhook to trigger email (fire and forget, don't block response)
+    if (carta && email) {
+      fetch('https://diostehabla.app.n8n.cloud/webhook/carta-diostehabla', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ carta, nombre, email, sorteo })
+      }).catch(err => console.log('n8n webhook error:', err.message));
+    }
 
     return {
       statusCode: 200,
@@ -48,7 +51,6 @@ exports.handler = async (event) => {
       body: JSON.stringify({ carta })
     };
   } catch (err) {
-    console.log('Error:', err.message);
     return {
       statusCode: 500,
       headers: { 'Access-Control-Allow-Origin': '*' },
