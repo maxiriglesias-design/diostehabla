@@ -10,15 +10,12 @@ exports.handler = async (event) => {
       body: ''
     };
   }
-
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
-
   try {
     const { prompt, nombre, email, sorteo } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
-
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -32,17 +29,21 @@ exports.handler = async (event) => {
         messages: [{ role: 'user', content: prompt }]
       })
     });
-
     const data = await response.json();
     const carta = data?.content?.[0]?.text || '';
 
-    // Send to n8n webhook to trigger email (fire and forget, don't block response)
+    // Enviar a n8n para disparar el email — CON await, sino la función se apaga antes de que salga
     if (carta && email) {
-      fetch('https://diostehabla.app.n8n.cloud/webhook/carta-diostehabla', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ carta, nombre, email, sorteo })
-      }).catch(err => console.log('n8n webhook error:', err.message));
+      try {
+        const n8nRes = await fetch('https://diostehabla.app.n8n.cloud/webhook/carta-diostehabla', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ carta, nombre, email, sorteo })
+        });
+        console.log('n8n webhook status:', n8nRes.status);
+      } catch (err) {
+        console.log('n8n webhook error:', err.message);
+      }
     }
 
     return {
