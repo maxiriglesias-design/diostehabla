@@ -321,7 +321,7 @@ footer{
     <div class="opener">Si estás aquí, es porque Dios quiere hablarte.</div>
     <h1>Su palabra.<br>Para <em>ti.</em><br>Esta semana.</h1>
     <p class="hero-desc">Cada semana Dios tiene algo específico para decirte. <strong>No un versículo genérico.</strong> Su palabra exacta para lo que estás viviendo hoy — con tu nombre, tu situación, este momento.</p>
-    <p class="hero-desc">Cuéntanos tu semana. Recibes la <strong>Palabra de Dios escrita y narrada solo para ti</strong> — con el versículo que necesitabas y una oración para cada día.</p>
+    <p class="hero-desc">Cuéntanos tu semana. Recibes la <strong>Palabra de Dios escrita solo para ti</strong> — con el versículo que necesitabas y una oración para cada día.</p>
 
     <div class="blessing-strip">
       <div class="bs-label">✦ La Bendición de Esta Semana</div>
@@ -438,9 +438,9 @@ footer{
 
       <div class="step">
         <span class="step-num">02</span>
-        <span class="step-icon">🎙️</span>
-        <div class="step-name">Tu palabra llega narrada</div>
-        <p class="step-text">Cada domingo recibes la Palabra de Dios escrita y narrada en audio — con tu nombre, el versículo exacto para lo que estás viviendo, y una oración íntima solo para ti.</p>
+        <span class="step-icon">📖</span>
+        <div class="step-name">Tu palabra llega a ti</div>
+        <p class="step-text">Cada domingo recibes la Palabra de Dios escrita para ti — con tu nombre, el versículo exacto para lo que estás viviendo, y una oración íntima solo para ti.</p>
         <span class="step-tag">Cada domingo</span>
       </div>
 
@@ -509,7 +509,7 @@ async function generar(){
   const dias=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   const prompt=`Eres un escritor espiritual profundamente humano. Tu misión es escribir la Palabra de Dios personalizada para ${nombre}, una persona de fe ${religion}. 
 
-Esta carta será narrada en audio — debe durar entre 3 y 5 minutos cuando se lee en voz alta. Eso equivale a entre 500 y 700 palabras en el cuerpo principal. Escribe con esa extensión.
+Esta carta debe ser profunda y extensa — entre 500 y 700 palabras en el cuerpo principal. Escribe con esa extensión.
 
 INFORMACIÓN DE ${nombre.toUpperCase()}:
 - Lo más difícil de su semana: ${q1||'No lo mencionó, pero Dios lo sabe'}
