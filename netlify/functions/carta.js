@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     const data = await response.json();
     const carta = data?.content?.[0]?.text || '';
 
-    // Enviar a n8n para disparar el email — CON await, sino la función se apaga antes de que salga
+    // Enviar a n8n para disparar el email — CON await (sino la función se apaga antes de que salga)
     if (carta && email) {
       try {
         const n8nRes = await fetch('https://diostehabla.app.n8n.cloud/webhook/carta-diostehabla', {
