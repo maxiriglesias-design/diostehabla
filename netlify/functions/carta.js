@@ -14,7 +14,7 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
   try {
-    const { prompt, nombre, email, sorteo } = JSON.parse(event.body);
+    const { prompt, nombre, email, sorteo, situacion } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -31,6 +31,20 @@ exports.handler = async (event) => {
     });
     const data = await response.json();
     const carta = data?.content?.[0]?.text || '';
+
+    // Guardar el LEAD en el Sheet (generó carta = lead, todavía no pagó)
+    if (email) {
+      try {
+        const leadRes = await fetch('https://diostehabla.app.n8n.cloud/webhook/lead-diostehabla', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, nombre, situacion: situacion || prompt })
+        });
+        console.log('lead webhook status:', leadRes.status);
+      } catch (err) {
+        console.log('lead webhook error:', err.message);
+      }
+    }
 
     // Enviar a n8n para disparar el email — CON await (sino la función se apaga antes de que salga)
     if (carta && email) {

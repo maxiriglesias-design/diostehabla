@@ -563,9 +563,11 @@ REGLAS ABSOLUTAS:
 - Mínimo 500 palabras en el cuerpo principal
 - Cero frases genéricas — todo conectado a su semana específica
 - Solo texto corrido, sin títulos, sin asteriscos, sin markdown`;
+  // Situación limpia para guardar en el Sheet (reutilizable en la carta semanal)
+  const situacion = `Difícil: ${q1||'—'} | Pide: ${q2||'—'} | Pesa: ${q3||'—'}`;
   const sorteoNum='#'+Math.floor(1000+Math.random()*9000);
   try{
-    const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,nombre,email,sorteo:sorteoNum})});
+    const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,nombre,email,sorteo:sorteoNum,situacion})});
     const data=await res.json();
     const carta=data.carta||'';if(!carta)throw new Error();
     sessionStorage.setItem('cf_carta',carta);sessionStorage.setItem('cf_nombre',nombre);
