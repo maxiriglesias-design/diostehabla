@@ -3,22 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DiosTeHabla — La Palabra de Dios Para Ti</title>
+<title>DiosTeHabla — Cuéntanos tu corazón</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold: #D4A843;
-  --gold2: #E8C055;
-  --gold-soft: rgba(212,168,67,0.11);
-  --gold-border: rgba(212,168,67,0.22);
-  --bg: #1A1A1A;
-  --bg2: #222222;
-  --bg3: #2A2A2A;
-  --white: #FFFFFF;
-  --cream: #F5EDD8;
-  --mid: rgba(255,255,255,0.72);
-  --muted: rgba(255,255,255,0.45);
-  --border: rgba(255,255,255,0.09);
+:root{
+  --gold:#D4A843; --gold2:#E8C055;
+  --gold-soft:rgba(212,168,67,0.11); --gold-border:rgba(212,168,67,0.22);
+  --bg:#1A1A1A; --bg2:#222222; --bg3:#2A2A2A;
+  --white:#FFFFFF; --cream:#F5EDD8;
+  --mid:rgba(255,255,255,0.72); --muted:rgba(255,255,255,0.45);
+  --border:rgba(255,255,255,0.09);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -26,6 +20,7 @@ body{
   background:var(--bg);color:var(--white);
   font-family:'Inter',sans-serif;font-weight:300;
   min-height:100vh;overflow-x:hidden;
+  display:flex;flex-direction:column;
 }
 body::before{
   content:'';position:fixed;inset:0;
@@ -33,516 +28,581 @@ body::before{
   pointer-events:none;z-index:0;opacity:.6;
 }
 
-/* NAV */
-nav{
+/* ── TOP BAR + PROGRESS ── */
+.topbar{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;justify-content:center;align-items:center;
-  padding:20px 48px;
   background:rgba(26,26,26,0.94);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
 }
-.logo{
-  display:flex;align-items:center;gap:10px;
-  font-family:'Playfair Display',serif;
-  font-size:22px;font-weight:400;letter-spacing:.04em;
-  color:var(--white);text-decoration:none;
+.topbar-inner{
+  max-width:640px;margin:0 auto;
+  display:flex;align-items:center;gap:14px;
+  padding:16px 24px 14px;
 }
-.logo-cross{
-  width:30px;height:30px;
-  border:1px solid var(--gold-border);
-  display:flex;align-items:center;justify-content:center;
+.back-btn{
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:20px;line-height:1;padding:4px 6px;transition:color .2s;
+  opacity:1;
+}
+.back-btn:hover{color:var(--white);}
+.back-btn.hidden{visibility:hidden;}
+.logo{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Playfair Display',serif;font-size:17px;letter-spacing:.03em;
+  color:var(--white);white-space:nowrap;
 }
 .logo em{font-style:normal;color:var(--gold);}
+.progress-wrap{flex:1;height:4px;background:rgba(255,255,255,0.08);overflow:hidden;border-radius:2px;}
+.progress-bar{position:relative;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .55s cubic-bezier(.4,0,.2,1);overflow:hidden;border-radius:2px;box-shadow:0 0 12px rgba(212,168,67,.4);}
+.progress-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:shimmer 2.4s ease-in-out infinite;}
+@keyframes shimmer{0%{transform:translateX(-120%);}60%,100%{transform:translateX(320%);}}
+.step-count{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);white-space:nowrap;min-width:48px;text-align:right;font-variant-numeric:tabular-nums;}
 
-/* HERO — split layout */
-.hero{
-  min-height:100vh;
-  display:grid;grid-template-columns:1fr 1fr;
-  padding-top:80px;
+/* ── STAGE ── */
+.stage{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:110px 24px 60px;position:relative;z-index:1;
 }
+.card{
+  width:100%;max-width:560px;
+}
+.step{display:none;}
+.step.active{display:block;}
+/* entrada en cascada: cada elemento aparece en secuencia (both = mantiene visible al terminar) */
+.step.active > *{animation:riseIn .55s cubic-bezier(.16,1,.3,1) both;}
+.step.active > *:nth-child(1){animation-delay:.04s;}
+.step.active > *:nth-child(2){animation-delay:.12s;}
+.step.active > *:nth-child(3){animation-delay:.20s;}
+.step.active > *:nth-child(4){animation-delay:.28s;}
+.step.active > *:nth-child(5){animation-delay:.36s;}
+.step.active > *:nth-child(6){animation-delay:.44s;}
+.step.active > *:nth-child(7){animation-delay:.50s;}
+@keyframes riseIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+/* pills entran en cascada dentro del grupo */
+.pills .pill{animation:riseIn .5s cubic-bezier(.16,1,.3,1) both;}
+.pills .pill:nth-child(1){animation-delay:.30s;}
+.pills .pill:nth-child(2){animation-delay:.36s;}
+.pills .pill:nth-child(3){animation-delay:.42s;}
+.pills .pill:nth-child(4){animation-delay:.48s;}
+.pills .pill:nth-child(5){animation-delay:.54s;}
+.pills .pill:nth-child(6){animation-delay:.60s;}
+.pills .pill:nth-child(7){animation-delay:.66s;}
 
-/* LEFT — dark */
-.hero-left{
-  background:var(--bg);
-  display:flex;flex-direction:column;justify-content:center;
-  padding:80px 60px 80px 52px;
-  position:relative;z-index:1;overflow:hidden;
+.eyebrow{
+  font-size:10px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold);opacity:.7;margin-bottom:18px;
 }
-.hero-left::before{
-  content:'';position:absolute;
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(212,168,67,.09) 0%,transparent 70%);
-  top:50%;left:20%;transform:translate(-50%,-50%);pointer-events:none;
-}
-
-.opener{
+.q-title{
   font-family:'Playfair Display',serif;
-  font-size:clamp(17px,1.8vw,22px);
-  font-style:italic;font-weight:300;
-  color:rgba(212,168,67,0.75);
-  margin-bottom:20px;line-height:1.4;
-  padding-left:16px;
-  border-left:2px solid rgba(212,168,67,0.35);
-  position:relative;z-index:1;
+  font-size:clamp(26px,4.4vw,38px);font-weight:400;line-height:1.12;
+  letter-spacing:-.01em;margin-bottom:12px;
 }
-h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(50px,5.5vw,76px);
-  font-weight:400;line-height:1.02;
-  letter-spacing:-.015em;margin-bottom:24px;
-  position:relative;z-index:1;
-}
-h1 em{font-style:italic;color:var(--gold);}
-.hero-desc{
-  font-size:17px;color:var(--mid);
-  line-height:1.75;margin-bottom:14px;max-width:480px;
-  position:relative;z-index:1;
-}
-.hero-desc strong{color:var(--white);font-weight:400;}
+.q-title em{font-style:italic;color:var(--gold);}
+.q-help{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:28px;max-width:460px;}
+.q-help .opt{color:var(--muted);}
 
-/* Blessing */
-.blessing-strip{
-  margin-top:32px;padding:24px 28px;
-  background:var(--bg2);
-  border:1px solid var(--gold-border);
-  border-left:3px solid var(--gold);
-  position:relative;z-index:1;
-}
-.bs-label{font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:10px;}
-.bs-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--white);margin-bottom:8px;line-height:1.3;}
-.bs-desc{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:14px;}
-.bs-amount-row{display:flex;align-items:baseline;gap:10px;}
-.bs-amount{
-  font-family:'Playfair Display',serif;
-  font-size:52px;color:var(--gold);line-height:1;
-  animation:glow 4s ease-in-out infinite;
-}
-@keyframes glow{0%,100%{text-shadow:0 0 20px rgba(212,168,67,.1);}50%{text-shadow:0 0 40px rgba(212,168,67,.4);}}
-.bs-amount-sub{font-size:12px;color:var(--muted);}
-
-/* Stats */
-.stats{display:flex;margin-top:28px;border:1px solid var(--border);position:relative;z-index:1;}
-.stat{flex:1;padding:16px 20px;text-align:center;border-right:1px solid var(--border);}
-.stat:last-child{border-right:none;}
-.stat-n{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);display:block;margin-bottom:4px;}
-.stat-l{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-
-/* RIGHT — dark form */
-.hero-right{
-  background:var(--bg2);
-  border-left:1px solid var(--border);
-  display:flex;flex-direction:column;justify-content:center;
-  padding:80px 56px;
-  position:relative;z-index:1;overflow-y:auto;
-}
-.form-heading{
-  font-family:'Playfair Display',serif;
-  font-size:24px;font-weight:400;font-style:italic;
-  color:var(--white);margin-bottom:6px;
-}
-.form-sub{
-  font-size:14px;color:var(--mid);
-  margin-bottom:28px;padding-bottom:22px;
-  border-bottom:1px solid var(--border);line-height:1.6;
-}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
-.field{display:flex;flex-direction:column;gap:6px;}
-.field-label{font-size:9px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);}
-.f-input{
-  background:var(--bg3);border:1px solid var(--border);
-  padding:11px 13px;font-family:'Inter',sans-serif;
-  font-size:14px;color:var(--white);outline:none;transition:border-color .2s;
-}
-.f-input:focus{border-color:var(--gold-border);}
-.f-input::placeholder{color:rgba(255,255,255,.22);}
-select.f-input{cursor:pointer;appearance:none;}
-.q{margin-bottom:16px;}
-.q-q{font-size:14px;font-weight:400;color:var(--white);margin-bottom:10px;line-height:1.4;}
-.q-q span{font-size:12px;color:var(--muted);font-weight:300;}
-.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+/* pills */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
 .pill{
-  padding:6px 13px;border:1px solid var(--border);
-  background:transparent;color:var(--mid);
-  font-family:'Inter',sans-serif;font-size:12px;font-weight:300;
-  cursor:pointer;transition:all .15s;
+  padding:11px 18px;border:1px solid var(--border);background:transparent;
+  color:var(--mid);font-family:'Inter',sans-serif;font-size:14px;font-weight:300;
+  cursor:pointer;transition:transform .15s cubic-bezier(.16,1,.3,1),border-color .15s,color .15s,background .15s;text-align:left;
 }
-.pill:hover{border-color:var(--gold-border);color:var(--white);}
-.pill.on{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);}
-.q-ta{
+.pill:hover{border-color:var(--gold-border);color:var(--white);transform:translateY(-2px);}
+.pill:active{transform:scale(.96);}
+.pill.on{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);animation:pop .32s ease;}
+.pill.on::before{content:'✓ ';color:var(--gold);font-weight:600;}
+@keyframes pop{0%{transform:scale(1);}45%{transform:scale(1.07);}100%{transform:scale(1);}}
+
+/* text inputs */
+.ta{
   width:100%;background:var(--bg3);border:1px solid var(--border);
-  padding:10px 13px;font-family:'Inter',sans-serif;
-  font-size:13px;color:var(--white);resize:none;outline:none;
-  min-height:44px;line-height:1.5;transition:border-color .2s;
+  padding:14px 16px;font-family:'Inter',sans-serif;font-size:15px;color:var(--white);
+  resize:none;outline:none;min-height:96px;line-height:1.6;transition:border-color .2s;
 }
-.q-ta:focus{border-color:var(--gold-border);}
-.q-ta::placeholder{color:rgba(255,255,255,.18);}
-.sep{height:1px;background:var(--border);margin:16px 0;}
-.email-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--white);margin-bottom:4px;}
-.email-sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
-.email-row{display:flex;}
-.e-input{
-  flex:1;background:var(--bg);
-  border:1px solid var(--gold-border);border-right:none;
-  padding:13px 15px;font-family:'Inter',sans-serif;
-  font-size:14px;color:var(--white);outline:none;
+.ta:focus{border-color:var(--gold-border);}
+.ta::placeholder{color:rgba(255,255,255,.22);}
+.f-input{
+  width:100%;background:var(--bg3);border:1px solid var(--gold-border);
+  padding:16px 18px;font-family:'Inter',sans-serif;font-size:16px;color:var(--white);
+  outline:none;transition:border-color .2s;
 }
-.e-input::placeholder{color:rgba(255,255,255,.28);}
-.e-input:focus{border-color:var(--gold);}
-.btn-go{
+.f-input:focus{border-color:var(--gold);}
+.f-input::placeholder{color:rgba(255,255,255,.26);}
+
+/* continue button */
+.actions{display:flex;align-items:center;gap:16px;margin-top:26px;}
+.btn{
   background:var(--gold);color:var(--bg);border:none;
-  padding:13px 18px;font-family:'Inter',sans-serif;
-  font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  cursor:pointer;transition:background .2s;white-space:nowrap;
+  padding:15px 34px;font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s,transform .15s cubic-bezier(.16,1,.3,1),box-shadow .2s;
 }
-.btn-go:hover:not(:disabled){background:var(--gold2);}
-.btn-go:disabled{opacity:.4;cursor:not-allowed;}
-.form-note{font-size:11px;color:var(--muted);margin-top:8px;text-align:center;}
-.load{display:none;flex-direction:column;align-items:center;gap:14px;padding:32px;text-align:center;}
-.load.on{display:flex;}
-.load-cross{font-size:36px;color:var(--gold);animation:pulse 1.8s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:.3;transform:scale(.95);}50%{opacity:1;transform:scale(1.05);}}
-.load-txt{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--muted);}
-.err{display:none;margin-top:8px;padding:10px 14px;border-left:2px solid #c05050;background:rgba(192,80,80,.08);font-size:12px;color:#e08080;}
+.btn:hover:not(:disabled){background:var(--gold2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,168,67,.28);}
+.btn:active:not(:disabled){transform:translateY(0) scale(.98);}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+.skip{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;transition:color .2s;}
+.skip:hover{color:var(--mid);}
+.hint{font-size:12px;color:var(--muted);margin-top:14px;}
+.err{display:none;margin-top:14px;padding:11px 15px;border-left:2px solid #c05050;background:rgba(192,80,80,.08);font-size:13px;color:#e08080;}
 .err.on{display:block;}
 
-/* HOW IT WORKS — dark, big numbers visible */
-.how-section{
-  padding:100px 52px;
-  background:var(--bg2);
-  border-top:1px solid var(--border);
+/* pantalla del versículo (intermedia, como los micro-mensajes) */
+.vs-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(22px,3.8vw,30px);line-height:1.45;color:var(--cream);
+  max-width:480px;margin:0 auto 16px;
 }
-.how-inner{max-width:1100px;margin:0 auto;}
-.section-eyebrow{
-  font-size:9px;font-weight:500;letter-spacing:.42em;text-transform:uppercase;
-  color:var(--gold);opacity:.65;text-align:center;margin-bottom:16px;
-}
-.section-h2{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(32px,4vw,52px);font-weight:400;
-  color:var(--white);text-align:center;margin-bottom:14px;line-height:1.1;
-}
-.section-h2 em{font-style:italic;color:var(--gold);}
-.section-desc{
-  font-family:'Playfair Display',serif;
-  font-size:17px;font-style:italic;color:var(--mid);
-  text-align:center;max-width:520px;margin:0 auto 64px;line-height:1.65;
-}
+.vs-cite{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
 
-/* Steps — big visible numbers inspired by YouVersion clarity */
-.steps{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1px;background:var(--border);
+/* micro-message screens */
+.msg{text-align:center;padding:20px 0;}
+.msg-mark{font-size:34px;color:var(--gold);margin-bottom:20px;opacity:.9;animation:pulse 2.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.55;transform:scale(.97);}50%{opacity:1;transform:scale(1.03);}}
+.msg-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(20px,3.4vw,27px);line-height:1.45;color:var(--white);
+  max-width:440px;margin:0 auto 8px;
 }
-.step{
-  background:var(--bg);padding:48px 32px 40px;
-  position:relative;transition:background .3s;
-  overflow:hidden;
-}
-.step:hover{background:var(--bg3);}
+.msg-sub{font-size:14px;color:var(--muted);margin-top:14px;}
 
-/* BIG visible number */
-.step-num{
-  font-family:'Playfair Display',serif;
-  font-size:96px;font-weight:700;
-  color:rgba(212,168,67,0.18);
-  line-height:1;
-  margin-bottom:4px;
-  display:block;
-  letter-spacing:-.02em;
-}
+/* loading (final) */
+.load{display:none;flex-direction:column;align-items:center;gap:16px;text-align:center;padding:20px;}
+.load.on{display:flex;}
+.load-cross{font-size:44px;color:var(--gold);animation:pulse 1.7s ease-in-out infinite;}
+.load-txt{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--mid);}
+.load-txt2{font-size:13px;color:var(--muted);}
 
-.step-icon{font-size:24px;margin-bottom:14px;display:block;}
-.step-name{
-  font-family:'Playfair Display',serif;
-  font-size:19px;font-weight:400;
-  color:var(--white);margin-bottom:12px;line-height:1.2;
+@media(prefers-reduced-motion:reduce){
+  .step.active > *,.pills .pill{animation:none;opacity:1;}
+  .msg-mark,.load-cross,.progress-bar::after,.pill.on{animation:none;}
+  .progress-bar{transition:none;}
+  .pill:hover,.btn:hover:not(:disabled){transform:none;}
 }
-.step-text{font-size:14px;color:var(--mid);line-height:1.72;}
-.step-tag{
-  display:inline-block;margin-top:16px;
-  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);opacity:.6;
-  border:1px solid var(--gold-border);padding:5px 10px;
-}
-
-/* FOOTER */
-footer{
-  background:var(--bg);border-top:1px solid var(--border);
-  padding:52px 24px;text-align:center;
-}
-.footer-logo{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);letter-spacing:.08em;margin-bottom:8px;}
-.footer-tag{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--muted);margin-bottom:28px;}
-.btn-footer{
-  display:inline-block;
-  background:var(--gold);color:var(--bg);
-  padding:16px 40px;font-family:'Inter',sans-serif;
-  font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  text-decoration:none;transition:background .2s;cursor:pointer;border:none;
-}
-.btn-footer:hover{background:var(--gold2);}
-
-/* MOBILE */
-@media(max-width:900px){
-  nav{padding:16px 20px;}
-  .hero{grid-template-columns:1fr;}
-  .hero-left{padding:52px 24px;}
-  .hero-right{padding:44px 24px;border-left:none;border-top:1px solid var(--border);}
-  .row2{grid-template-columns:1fr;}
-  .steps{grid-template-columns:1fr 1fr;}
-  .how-section{padding:72px 24px;}
-}
-@media(max-width:480px){
-  .steps{grid-template-columns:1fr;}
-  .email-row{flex-direction:column;}
-  .e-input{border-right:1px solid var(--gold-border);border-bottom:none;}
-  .stats{flex-wrap:wrap;}
-  .stat{min-width:50%;}
+@media(max-width:520px){
+  .topbar-inner{padding:14px 16px 12px;gap:10px;}
+  .logo{font-size:15px;}
+  .stage{padding:96px 18px 48px;}
+  .actions{flex-direction:column;align-items:stretch;}
+  .btn{width:100%;}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="logo">
-    <div class="logo-cross">
-      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="5.5" y="0" width="3" height="18" fill="#D4A843"/>
-        <rect x="0" y="5" width="14" height="3" fill="#D4A843"/>
-      </svg>
-    </div>
-    Dios<em>Te</em>Habla
-  </a>
-</nav>
-
-<div class="hero">
-
-  <!-- LEFT — dark -->
-  <div class="hero-left">
-    <div class="opener">Si estás aquí, es porque Dios quiere hablarte.</div>
-    <h1>Su palabra.<br>Para <em>ti.</em><br>Esta semana.</h1>
-    <p class="hero-desc">Cada semana Dios tiene algo específico para decirte. <strong>No un versículo genérico.</strong> Su palabra exacta para lo que estás viviendo hoy — con tu nombre, tu situación, este momento.</p>
-    <p class="hero-desc">Cuéntanos tu semana. Recibes la <strong>Palabra de Dios escrita solo para ti</strong> — con el versículo que necesitabas y una oración para cada día.</p>
-
-    <div class="blessing-strip">
-      <div class="bs-label">✦ La Bendición de Esta Semana</div>
-      <div class="bs-title">Cada semana Dios derrama su gracia sobre uno de nosotros.</div>
-      <div class="bs-desc">Nuestra comunidad ora junta. Y cada semana Dios elige a uno de sus miembros para recibir una bendición económica. Esta semana puede ser para ti.</div>
-      <div class="bs-amount-row">
-        <span class="bs-amount" id="blessAmt">$0</span>
-        <span class="bs-amount-sub">esta semana · <span id="memCount">0</span> miembros</span>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><span class="stat-n" id="s1">0</span><span class="stat-l">Palabras enviadas</span></div>
-      <div class="stat"><span class="stat-n" id="s2">0</span><span class="stat-l">Familias bendecidas</span></div>
-      <div class="stat"><span class="stat-n">★ 4.9</span><span class="stat-l">Valoración</span></div>
-    </div>
-  </div>
-
-  <!-- RIGHT — dark form -->
-  <div class="hero-right">
-    <div class="form-heading">Cuéntanos tu semana</div>
-    <div class="form-sub">Dios ya lo sabe — pero quiere escucharlo de ti. Tu primera palabra es completamente gratuita.</div>
-
-    <div id="formArea">
-      <div class="row2">
-        <div class="field">
-          <span class="field-label">Tu nombre</span>
-          <input class="f-input" id="nombre" type="text" placeholder="María..." />
-        </div>
-        <div class="field">
-          <span class="field-label">Tu fe</span>
-          <select class="f-input" id="religion">
-            <option value="católica">Católica / Católico</option>
-            <option value="evangélica">Evangélica / Evangélico</option>
-            <option value="cristiana">Cristiana / Cristiano</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="q">
-        <div class="q-q">¿Qué fue lo más difícil de tu semana?</div>
-        <div class="pills">
-          <button class="pill" onclick="pill(this,'q1','Problemas familiares o de pareja')">Familia</button>
-          <button class="pill" onclick="pill(this,'q1','Dificultades económicas')">Economía</button>
-          <button class="pill" onclick="pill(this,'q1','Trabajo o estudio')">Trabajo</button>
-          <button class="pill" onclick="pill(this,'q1','Me sentí solo/a')">Soledad</button>
-          <button class="pill" onclick="pill(this,'q1','Problemas de salud')">Salud</button>
-          <button class="pill" onclick="pill(this,'q1','Estrés y ansiedad')">Estrés</button>
-          <button class="pill" onclick="pill(this,'q1','Una pérdida')">Una pérdida</button>
-        </div>
-        <textarea class="q-ta" id="q1" rows="2" placeholder="O cuéntanos con tus palabras..."></textarea>
-      </div>
-
-      <div class="q">
-        <div class="q-q">¿Qué le pides a Dios para esta semana?</div>
-        <div class="pills">
-          <button class="pill" onclick="pill(this,'q2','Paz y tranquilidad interior')">Paz</button>
-          <button class="pill" onclick="pill(this,'q2','Fuerzas para seguir')">Fuerzas</button>
-          <button class="pill" onclick="pill(this,'q2','Una señal de Dios')">Una señal</button>
-          <button class="pill" onclick="pill(this,'q2','Provisión económica')">Provisión</button>
-          <button class="pill" onclick="pill(this,'q2','Sanidad')">Sanidad</button>
-          <button class="pill" onclick="pill(this,'q2','Más fe')">Más fe</button>
-        </div>
-        <textarea class="q-ta" id="q2" rows="2" placeholder="O cuéntanos con tus palabras..."></textarea>
-      </div>
-
-      <div class="q">
-        <div class="q-q">¿Hay algo que te pesa? <span>Opcional</span></div>
-        <div class="pills">
-          <button class="pill" onclick="pill(this,'q3','Cargo con culpa')">Culpa</button>
-          <button class="pill" onclick="pill(this,'q3','Tengo miedo al futuro')">Miedo</button>
-          <button class="pill" onclick="pill(this,'q3','Necesito perdonar')">Perdón</button>
-          <button class="pill" onclick="pill(this,'q3','No me siento suficiente')">Inseguridad</button>
-          <button class="pill" onclick="pill(this,'q3','Estoy bien, gracias a Dios')">Estoy bien 🙏</button>
-        </div>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="email-title">¿A dónde te enviamos la Palabra?</div>
-      <div class="email-sub">Gratis. Sin tarjeta. Sin compromisos.</div>
-      <div class="email-row">
-        <input class="e-input" id="emailInput" type="email" placeholder="tu@email.com" />
-        <button class="btn-go" id="btnGen" onclick="generar()">Recibir La Palabra de Dios Gratis →</button>
-      </div>
-      <div class="form-note">Dios quiere acompañarte esta semana. Esta es su manera.</div>
-      <div class="err" id="errMsg"></div>
-    </div>
-
-    <div class="load" id="loadWrap">
-      <div class="load-cross">✝</div>
-      <div class="load-txt">Dios está preparando tu palabra...</div>
-    </div>
+<div class="topbar">
+  <div class="topbar-inner">
+    <button class="back-btn hidden" id="backBtn" onclick="back()" aria-label="Volver">←</button>
+    <span class="logo">Dios<em>Te</em>Habla</span>
+    <div class="progress-wrap"><div class="progress-bar" id="progress"></div></div>
+    <span class="step-count" id="stepCount"></span>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<div class="how-section">
-  <div class="how-inner">
-    <div class="section-eyebrow">✦ &nbsp; Cómo funciona &nbsp; ✦</div>
-    <h2 class="section-h2">Cuatro momentos.<br><em>Una semana contigo.</em></h2>
-    <p class="section-desc">Desde que abres tu corazón hasta que Dios te acompaña cada mañana.</p>
-    <div class="steps">
+<div class="stage">
+  <div class="card" id="card"><!-- steps render here --></div>
 
-      <div class="step">
-        <span class="step-num">01</span>
-        <span class="step-icon">🙏</span>
-        <div class="step-name">Abre tu corazón</div>
-        <p class="step-text">Cuéntanos cómo estuvo tu semana — lo que te pesó, lo que agradeces, lo que le pides a Dios. Sin filtros. Él ya lo sabe, pero quiere escucharlo de ti.</p>
-        <span class="step-tag">Cada semana</span>
-      </div>
-
-      <div class="step">
-        <span class="step-num">02</span>
-        <span class="step-icon">📖</span>
-        <div class="step-name">Tu palabra llega a ti</div>
-        <p class="step-text">Cada domingo recibes la Palabra de Dios escrita para ti — con tu nombre, el versículo exacto para lo que estás viviendo, y una oración íntima solo para ti.</p>
-        <span class="step-tag">Cada domingo</span>
-      </div>
-
-      <div class="step">
-        <span class="step-num">03</span>
-        <span class="step-icon">✝</span>
-        <div class="step-name">Dios te acompaña cada día</div>
-        <p class="step-text">De lunes a sábado recibes una oración personalizada para ese día — escrita según tu semana y lo que necesitas. Para que Dios esté contigo de mañana en mañana.</p>
-        <span class="step-tag">Lunes a sábado</span>
-      </div>
-
-      <div class="step">
-        <span class="step-num">04</span>
-        <span class="step-icon">✨</span>
-        <div class="step-name">La bendición te encuentra</div>
-        <p class="step-text">Cada semana Dios derrama su bendición económica sobre uno de los miembros de nuestra comunidad. No es azar — es Su manera de moverse entre los suyos.</p>
-        <span class="step-tag">Cada semana</span>
-      </div>
-
-    </div>
+  <!-- loading overlay content (shown in place) -->
+  <div class="load" id="loadWrap" style="position:absolute;">
+    <div class="load-cross">✝</div>
+    <div class="load-txt">Dios está preparando tu palabra...</div>
+    <div class="load-txt2">Esto puede tomar unos segundos.</div>
   </div>
 </div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">DiosTeHabla</div>
-  <div class="footer-tag">Su palabra. Para ti. Cada semana.</div>
-  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="btn-footer">
-    ✝ &nbsp; Recibir La Palabra de Dios Gratis
-  </a>
-</footer>
 
 <script>
-function countUp(id,target,prefix='',dur=2000){
-  
-  const el=document.getElementById(id);if(!el)return;
-  let v=0,step=target/(dur/16);
-  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=prefix+Math.round(v).toLocaleString();if(v>=target)clearInterval(t);},16);
+/* ---------- estado ---------- */
+const state = {
+  nombre:'', genero:'', religion:'católica', etapa:'', conQuien:'', hijos:'',
+  dificil:'', sueno:'', miedo:'', relacionDios:'', pide:'', espera:'', email:''
+};
+
+/* ---------- definición del quiz ---------- */
+/* type: 'text' | 'pills' | 'pills_text' | 'message' | 'email'
+   key: campo de state.  autoNext: pills que avanzan solas.  optional: se puede saltar. */
+const steps = [
+  { type:'text', key:'nombre', eyebrow:'Antes de empezar', title:'¿Cómo te llamas?',
+    help:'Quiero llamarte por tu nombre.', placeholder:'Escribe tu nombre...' },
+
+  { type:'pills', key:'genero', eyebrow:'Quién eres', title:'¿Te llamo <em>hijo</em> o <em>hija</em>?',
+    autoNext:true,
+    options:[['mujer','Hija'],['hombre','Hijo'],['prefiero no decirlo','Prefiero no decirlo']] },
+
+  { type:'pills', key:'religion', eyebrow:'Tu fe', title:'¿Cómo vives tu fe?',
+    autoNext:true,
+    options:[['católica','Católica / Católico'],['evangélica','Evangélica / Evangélico'],['cristiana','Cristiana / Cristiano']] },
+
+  { type:'pills', key:'etapa', eyebrow:'Dónde estás hoy', title:'¿En qué <em>etapa</em> de tu vida estás?',
+    help:'No hay respuesta correcta. Solo dime dónde te encuentro hoy.', verse:true,
+    options:[
+      ['empezando algo nuevo','Empezando algo nuevo'],
+      ['atravesando una crisis','Atravesando una crisis'],
+      ['en una transición','En una transición'],
+      ['en un momento de paz','En un momento de paz'],
+      ['sintiéndome perdido/a','Me siento un poco perdido/a'],
+      ['reconstruyéndome','Reconstruyéndome']
+    ] },
+
+  { type:'pills', key:'conQuien', eyebrow:'Tu día a día', title:'¿Con quién <em>compartes</em> tu vida?',
+    verse:true,
+    options:[
+      ['mi familia','Mi familia'],
+      ['mi pareja','Mi pareja'],
+      ['mis hijos','Mis hijos'],
+      ['estoy solo/a','Estoy solo/a ahora'],
+      ['amigos cercanos','Amigos cercanos']
+    ] },
+
+  { type:'pills', key:'hijos', eyebrow:'Tu familia', title:'¿Tienes <em>hijos</em>?',
+    autoNext:true,
+    options:[
+      ['no tengo hijos','No tengo hijos'],
+      ['1 hijo/a','1'],
+      ['2 hijos','2'],
+      ['3 hijos','3'],
+      ['4 o más hijos','4 o más']
+    ] },
+
+  { type:'message', product:true, mark:'✦', text:'No caminas solo/a. Cada semana, miles abren su corazón como tú lo haces ahora — y oramos juntos.', sub:'Estás entrando en algo más grande que tú.' },
+
+  { type:'pills_text', key:'dificil', eyebrow:'Tu semana', title:'¿Qué fue lo <em>más difícil</em> de tu semana?',
+    help:'Elige lo que más se acerque, o cuéntamelo con tus palabras.', verse:true,
+    placeholder:'Esta semana me costó...',
+    options:[
+      ['problemas familiares o de pareja','Familia'],['dificultades económicas','Economía'],
+      ['trabajo o estudio','Trabajo'],['me sentí solo/a','Soledad'],
+      ['problemas de salud','Salud'],['estrés y ansiedad','Estrés'],['una pérdida','Una pérdida']
+    ] },
+
+  { type:'message', mark:'✦', text:'Gracias por confiarme esto. No estás solo/a — te escucho.', sub:'Sigamos un poco más adentro.' },
+
+  { type:'pills_text', key:'sueno', eyebrow:'Tu corazón', title:'¿Qué <em>sueño</em> llevas dentro que aún no se cumple?',
+    help:'Ese anhelo que quizás no le contaste a nadie. A mí puedes.', verse:true,
+    placeholder:'En el fondo, sueño con...',
+    options:[
+      ['formar o sanar mi familia','Mi familia'],['estabilidad económica','Estabilidad'],
+      ['encontrar mi propósito','Mi propósito'],['sanar una relación','Sanar un vínculo'],
+      ['volver a empezar','Empezar de nuevo'],['paz interior','Paz interior']
+    ] },
+
+  { type:'pills_text', key:'miedo', eyebrow:'Con confianza', title:'¿Qué <em>miedo</em> o herida cargas hoy?',
+    help:'<span class="opt">Puedes saltar esto si prefieres.</span> A veces nombrar lo que duele es el principio de sanar.',
+    placeholder:'A veces tengo miedo de...', optional:true, verse:true,
+    options:[
+      ['miedo al futuro','Miedo al futuro'],['una herida sin sanar','Una herida'],
+      ['culpa','Cargo con culpa'],['miedo a fallar','Miedo a fallar'],
+      ['miedo a la soledad','A quedarme solo/a'],['no sentirme suficiente','No ser suficiente']
+    ] },
+
+  { type:'message', mark:'✝', text:'Lo que me confías queda entre tú y yo.', sub:'Ya casi está tu palabra.' },
+
+  { type:'message', product:true, mark:'✦', text:'Con cada cosa que me confías, estoy escribiendo una palabra que es solo para ti.', sub:'Nadie más recibirá la tuya.' },
+
+  { type:'pills', key:'relacionDios', eyebrow:'Tú y yo', title:'¿Cómo está tu <em>relación</em> conmigo?',
+    help:'Con sinceridad. No hay nada que no pueda escuchar.', verse:true,
+    options:[
+      ['cercana','Cercana'],['un poco distante','Un poco distante'],
+      ['buscándote','Buscándote'],['dolida o enojada','Dolida / enojada'],
+      ['creciendo','Creciendo'],['no sé bien','No sé bien']
+    ] },
+
+  { type:'pills_text', key:'pide', eyebrow:'Esta semana', title:'¿Qué me <em>pides</em> para esta semana?',
+    help:'Mi oído está atento. ¿Qué necesitas?', verse:true,
+    placeholder:'Señor, te pido...',
+    options:[
+      ['paz y tranquilidad','Paz'],['fuerzas para seguir','Fuerzas'],
+      ['una señal','Una señal'],['provisión económica','Provisión'],
+      ['sanidad','Sanidad'],['más fe','Más fe']
+    ] },
+
+  { type:'message', product:true, mark:'✦', text:'Esto no termina hoy. Cada domingo, una nueva palabra. Cada mañana, una oración para tu día.', sub:'Para que no camines ninguna semana en soledad.' },
+
+  { type:'pills_text', key:'espera', eyebrow:'Tu esperanza', title:'¿Qué <em>esperas</em> que yo haga por ti?',
+    help:'En el fondo de tu corazón, ¿qué esperas de mí?', verse:true,
+    placeholder:'Espero que...',
+    options:[
+      ['que me dé una señal','Una señal'],['que abra un camino','Que abras un camino'],
+      ['que sane mi corazón','Que sanes mi corazón'],['que me dé fuerzas','Que me des fuerzas'],
+      ['que cambie mi situación','Que cambies todo'],['que esté conmigo','Que estés conmigo']
+    ] },
+
+  { type:'message', product:true, mark:'✝', text:'Tu palabra está lista. Y esta es solo la primera de muchas.', sub:'Cada semana, me muevo entre los míos. Esta semana, empieza contigo.' },
+
+  { type:'email', key:'email', eyebrow:'Tu palabra está lista', title:'Hay algo que quiero decirte <em>a ti</em>. ¿A dónde te lo hago llegar?',
+    help:'No es para nadie más. Es tu palabra, y te está esperando.<br><span class="opt" style="font-size:12px;">Gratis · Sin tarjeta · Sin compromisos</span>',
+    placeholder:'tu@email.com' }
+];
+
+/* ---------- banco de versículos (por valor de respuesta) ---------- */
+const versiculos = {
+  // etapa
+  'empezando algo nuevo':{t:'He aquí que yo hago cosa nueva; pronto saldrá a luz.',c:'Isaías 43:19'},
+  'atravesando una crisis':{t:'Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.',c:'Salmos 46:1'},
+  'en una transición':{t:'Fíate de Jehová de todo tu corazón, y él enderezará tus veredas.',c:'Proverbios 3:5-6'},
+  'en un momento de paz':{t:'En lugares de delicados pastos me hará descansar; junto a aguas de reposo me pastoreará.',c:'Salmos 23:2'},
+  'sintiéndome perdido/a':{t:'Te haré entender, y te enseñaré el camino en que debes andar.',c:'Salmos 32:8'},
+  'reconstruyéndome':{t:'Crea en mí, oh Dios, un corazón limpio, y renueva un espíritu recto dentro de mí.',c:'Salmos 51:10'},
+  // conQuien
+  'mi familia':{t:'Yo y mi casa serviremos a Jehová.',c:'Josué 24:15'},
+  'mi pareja':{t:'Mejores son dos que uno, porque tienen mejor paga de su trabajo.',c:'Eclesiastés 4:9'},
+  'mis hijos':{t:'Herencia de Jehová son los hijos; cosa de estima el fruto del vientre.',c:'Salmos 127:3'},
+  'estoy solo/a':{t:'No te desampararé, ni te dejaré.',c:'Hebreos 13:5'},
+  'amigos cercanos':{t:'En todo tiempo ama el amigo, y es como un hermano en la angustia.',c:'Proverbios 17:17'},
+  // dificil
+  'problemas familiares o de pareja':{t:'Cercano está Jehová a los quebrantados de corazón.',c:'Salmos 34:18'},
+  'dificultades económicas':{t:'Mi Dios, pues, suplirá todo lo que os falta conforme a sus riquezas.',c:'Filipenses 4:19'},
+  'trabajo o estudio':{t:'Y todo lo que hagáis, hacedlo de corazón, como para el Señor.',c:'Colosenses 3:23'},
+  'me sentí solo/a':{t:'No te desampararé, ni te dejaré.',c:'Hebreos 13:5'},
+  'problemas de salud':{t:'Él sana a los quebrantados de corazón, y venda sus heridas.',c:'Salmos 147:3'},
+  'estrés y ansiedad':{t:'Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.',c:'Mateo 11:28'},
+  'una pérdida':{t:'Bienaventurados los que lloran, porque ellos recibirán consolación.',c:'Mateo 5:4'},
+  // sueno
+  'formar o sanar mi familia':{t:'Si Jehová no edificare la casa, en vano trabajan los que la edifican.',c:'Salmos 127:1'},
+  'estabilidad económica':{t:'Jehová es mi pastor; nada me faltará.',c:'Salmos 23:1'},
+  'encontrar mi propósito':{t:'Yo sé los pensamientos que tengo acerca de vosotros, pensamientos de paz.',c:'Jeremías 29:11'},
+  'sanar una relación':{t:'Soportándoos unos a otros, y perdonándoos unos a otros.',c:'Colosenses 3:13'},
+  'volver a empezar':{t:'He aquí que yo hago cosa nueva; pronto saldrá a luz.',c:'Isaías 43:19'},
+  'paz interior':{t:'La paz os dejo, mi paz os doy; no se turbe vuestro corazón.',c:'Juan 14:27'},
+  // miedo
+  'miedo al futuro':{t:'No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios.',c:'Isaías 41:10'},
+  'una herida sin sanar':{t:'Él sana a los quebrantados de corazón, y venda sus heridas.',c:'Salmos 147:3'},
+  'culpa':{t:'Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados.',c:'1 Juan 1:9'},
+  'miedo a fallar':{t:'Esfuérzate y sé valiente; porque Jehová tu Dios estará contigo dondequiera que vayas.',c:'Josué 1:9'},
+  'miedo a la soledad':{t:'Aunque mi padre y mi madre me dejaran, con todo, Jehová me recogerá.',c:'Salmos 27:10'},
+  'no sentirme suficiente':{t:'Bástate mi gracia; porque mi poder se perfecciona en la debilidad.',c:'2 Corintios 12:9'},
+  // relacionDios
+  'cercana':{t:'Acercaos a Dios, y él se acercará a vosotros.',c:'Santiago 4:8'},
+  'un poco distante':{t:'Cercano está Jehová a todos los que le invocan.',c:'Salmos 145:18'},
+  'buscándote':{t:'Me buscaréis y me hallaréis, porque me buscaréis de todo vuestro corazón.',c:'Jeremías 29:13'},
+  'dolida o enojada':{t:'Esperad en él en todo tiempo; derramad delante de él vuestro corazón.',c:'Salmos 62:8'},
+  'creciendo':{t:'Creced en la gracia y el conocimiento de nuestro Señor.',c:'2 Pedro 3:18'},
+  'no sé bien':{t:'Examíname, oh Dios, y conoce mi corazón.',c:'Salmos 139:23'},
+  // pide
+  'paz y tranquilidad':{t:'Por nada estéis afanosos; y la paz de Dios guardará vuestros corazones.',c:'Filipenses 4:6-7'},
+  'fuerzas para seguir':{t:'Los que esperan a Jehová tendrán nuevas fuerzas; correrán, y no se cansarán.',c:'Isaías 40:31'},
+  'una señal':{t:'Muéstrame, oh Jehová, tus caminos; enséñame tus sendas.',c:'Salmos 25:4'},
+  'provisión económica':{t:'Mirad las aves del cielo; vuestro Padre celestial las alimenta.',c:'Mateo 6:26'},
+  'sanidad':{t:'Yo haré venir sanidad para ti, y sanaré tus heridas.',c:'Jeremías 30:17'},
+  'más fe':{t:'Creo; ayuda mi incredulidad.',c:'Marcos 9:24'},
+  // espera
+  'que me dé una señal':{t:'Encamíname en tu verdad, y enséñame.',c:'Salmos 25:5'},
+  'que abra un camino':{t:'Otra vez abriré camino en el desierto, y ríos en la soledad.',c:'Isaías 43:19'},
+  'que sane mi corazón':{t:'Él sana a los quebrantados de corazón, y venda sus heridas.',c:'Salmos 147:3'},
+  'que me dé fuerzas':{t:'Todo lo puedo en Cristo que me fortalece.',c:'Filipenses 4:13'},
+  'que cambie mi situación':{t:'A los que aman a Dios, todas las cosas les ayudan a bien.',c:'Romanos 8:28'},
+  'que esté conmigo':{t:'He aquí yo estoy con vosotros todos los días.',c:'Mateo 28:20'}
+};
+
+/* ---------- render ---------- */
+let idx = 0;
+const card = document.getElementById('card');
+const progressEl = document.getElementById('progress');
+const stepCountEl = document.getElementById('stepCount');
+const backBtn = document.getElementById('backBtn');
+
+// pasos que cuentan como "pregunta" para el progreso (excluye mensajes)
+const questionSteps = steps.filter(s=>s.type!=='message').length;
+function questionIndex(i){ return steps.slice(0,i+1).filter(s=>s.type!=='message').length; }
+
+// barra + porcentaje animado
+let lastPct = 0;
+function setProgress(pct){
+  progressEl.style.width = pct+'%';
+  const start=lastPct, t0=performance.now();
+  (function tick(t){
+    const k=Math.min((t-t0)/550,1);
+    stepCountEl.textContent = Math.round(start+(pct-start)*k)+'%';
+    if(k<1) requestAnimationFrame(tick);
+  })(t0);
+  lastPct=pct;
 }
-window.addEventListener('load',()=>{
-  countUp('s1',3241);countUp('s2',1187);
-  countUp('blessAmt',348,'$');
-  document.getElementById('memCount').textContent='174';
-});
-function pill(btn,field,val){
-  const g=btn.parentElement,was=btn.classList.contains('on');
-  g.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
-  const ta=document.getElementById(field);
-  if(!was){btn.classList.add('on');btn._v=val;if(ta&&(!ta.value||ta.value===btn._v))ta.value=val;}
-  else{if(ta&&ta.value===val)ta.value='';}
+
+function render(){
+  const s = steps[idx];
+  backBtn.classList.toggle('hidden', idx===0);
+
+  if(s.type==='message'){
+    setProgress(Math.round(questionIndex(idx)/questionSteps*100));
+    card.innerHTML = `
+      <div class="step active">
+        <div class="msg">
+          <div class="msg-mark">${s.mark||'✦'}</div>
+          <div class="msg-text">${s.text}</div>
+          <div class="msg-sub">${s.sub||''}</div>
+          <div class="actions" style="justify-content:center;">
+            <button class="btn" onclick="next()">Continuar</button>
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const qn = questionIndex(idx);
+  setProgress(Math.round(qn/questionSteps*100));
+
+  let inner = `<div class="eyebrow">${s.eyebrow||''}</div>
+    <div class="q-title">${s.title}</div>
+    ${s.help?`<div class="q-help">${s.help}</div>`:''}`;
+
+  if(s.type==='pills' || s.type==='pills_text'){
+    inner += `<div class="pills">`;
+    s.options.forEach(([val,label],k)=>{
+      const on = state[s.key]===val ? 'on':'';
+      const auto = (s.autoNext && !s.verse) ? true : false;
+      inner += `<button class="pill ${on}" data-v="${val}" onclick="pickPill('${s.key}',this,${auto})">${label}</button>`;
+    });
+    inner += `</div>`;
+  }
+  if(s.type==='pills_text'){
+    inner += `<textarea class="ta" id="taField" placeholder="${s.placeholder||''}" oninput="state['${s.key}']=this.value">${state[s.key]&&!s.options.some(o=>o[0]===state[s.key])?state[s.key]:''}</textarea>`;
+  }
+  if(s.type==='text'){
+    inner += `<input class="f-input" id="txtField" type="text" placeholder="${s.placeholder||''}" value="${state[s.key]||''}" oninput="state['${s.key}']=this.value" onkeydown="if(event.key==='Enter')next()"/>`;
+  }
+  if(s.type==='email'){
+    inner += `<input class="f-input" id="emailField" type="email" placeholder="${s.placeholder||''}" value="${state[s.key]||''}" oninput="state['${s.key}']=this.value" onkeydown="if(event.key==='Enter')generar()"/>`;
+  }
+
+  // acciones: mostrar botón Continuar si NO es una pura pill de auto-avance
+  const showContinue = (s.type!=='pills') || s.verse;
+  if(showContinue){
+    const isEmail = s.type==='email';
+    inner += `<div class="actions">
+      <button class="btn" onclick="${isEmail?'generar()':'next()'}">${isEmail?'Recibir mi Palabra ✝':'Continuar'}</button>
+      ${s.optional?`<button class="skip" onclick="skip()">Prefiero saltar esto</button>`:''}
+    </div>`;
+  }
+
+  inner += `<div class="err" id="errMsg"></div>`;
+  card.innerHTML = `<div class="step active">${inner}</div>`;
+
+  // autofocus
+  const f = document.getElementById('txtField')||document.getElementById('emailField');
+  if(f) setTimeout(()=>f.focus(),120);
 }
+
+function pickPill(key,btn,auto){
+  const group = btn.parentElement;
+  group.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  state[key]=btn.dataset.v;
+  const ta=document.getElementById('taField');
+  if(ta) ta.value='';           // si eligió pill, limpiamos el texto libre
+  if(auto) setTimeout(next,260);
+}
+
+function validate(){
+  const s=steps[idx];
+  if(s.type==='text' && s.key==='nombre'){
+    if(!state.nombre.trim()){showErr('Dime tu nombre para empezar.');return false;}
+  }
+  if(s.type==='pills' && s.verse && !s.optional){
+    if(!state[s.key]){showErr('Elige una opción para continuar.');return false;}
+  }
+  if(s.type==='pills_text' && !s.optional){
+    if(!state[s.key] || !state[s.key].trim()){showErr('Elige una opción o cuéntamelo con tus palabras.');return false;}
+  }
+  if(s.type==='email'){
+    if(!state.email || !state.email.includes('@')){showErr('Ingresa un email válido para enviarte tu palabra.');return false;}
+  }
+  return true;
+}
+
+let verseActive=false;
+function next(){
+  if(!validate()) return;
+  const s=steps[idx];
+  // si esta pregunta tiene versículo para la respuesta elegida, mostrar la pantalla del versículo primero
+  if(s.verse && !verseActive){
+    const v = versiculos[state[s.key]];
+    if(v){ showVerseScreen(v); return; }
+  }
+  verseActive=false;
+  if(idx < steps.length-1){ idx++; render(); }
+}
+function showVerseScreen(v){
+  verseActive=true;
+  backBtn.classList.add('hidden');
+  card.innerHTML = `
+    <div class="step active">
+      <div class="msg">
+        <div class="msg-mark">✦</div>
+        <div class="vs-text">“${v.t}”</div>
+        <div class="vs-cite">${v.c}</div>
+        <div class="actions" style="justify-content:center;">
+          <button class="btn" onclick="next()">Continuar</button>
+        </div>
+      </div>
+    </div>`;
+}
+function back(){ verseActive=false; if(idx>0){ idx--; render(); } }
+function skip(){ verseActive=false; const s=steps[idx]; if(s.key) state[s.key]=''; if(idx<steps.length-1){idx++;render();} }
+function showErr(m){const e=document.getElementById('errMsg');if(e){e.textContent=m;e.classList.add('on');}}
+
+/* ---------- generar carta (mismo backend que index) ---------- */
 async function generar(){
-  const nombre=document.getElementById('nombre').value.trim()||'amigo/a';
-  const religion=document.getElementById('religion').value;
-  const q1=document.getElementById('q1').value.trim();
-  const q2=document.getElementById('q2').value.trim();
-  const q3el=document.getElementById('q3');
-  const q3=q3el?q3el.value.trim():'';
-  const email=document.getElementById('emailInput').value.trim();
-  if(!email||!email.includes('@')){showErr('Por favor ingresa un email válido.');return;}
-  if(!q1&&!q2){showErr('Cuéntanos al menos algo de tu semana.');return;}
-  document.getElementById('btnGen').disabled=true;
-  document.getElementById('formArea').style.opacity='.4';
-  document.getElementById('loadWrap').classList.add('on');hideErr();
+  if(!validate()) return;
+  const nombre = state.nombre.trim() || 'amigo/a';
+  const religion = state.religion;
+  const email = state.email.trim();
+
+  // ocultar card, mostrar loading
+  document.getElementById('card').style.display='none';
+  document.getElementById('loadWrap').classList.add('on');
+
   const hoy=new Date();
   const dias=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  const prompt=`Eres un escritor espiritual profundamente humano. Tu misión es escribir la Palabra de Dios personalizada para ${nombre}, una persona de fe ${religion}. 
+
+  const saludo = state.genero==='hombre' ? 'Querido' : state.genero==='mujer' ? 'Querida' : 'Querido/a';
+  const generoTxt = state.genero==='hombre' ? 'hombre' : state.genero==='mujer' ? 'mujer' : 'no especificado';
+
+  const info = `INFORMACIÓN DE ${nombre.toUpperCase()}:
+- Género: ${generoTxt}
+- Etapa de vida: ${state.etapa||'No lo dijo, pero Dios conoce su camino'}
+- Con quién comparte su vida: ${state.conQuien||'No lo dijo'}
+- Hijos: ${state.hijos||'No lo dijo'}
+- Lo más difícil de su semana: ${state.dificil||'No lo mencionó, pero Dios lo sabe'}
+- Un sueño o anhelo aún no cumplido: ${state.sueno||'No lo dijo'}
+- Un miedo o herida que carga: ${state.miedo||'No lo dijo'}
+- Cómo describe su relación con Dios: ${state.relacionDios||'No lo dijo'}
+- Lo que le pide a Dios esta semana: ${state.pide||'No lo mencionó, pero Dios lo ve'}
+- Lo que espera que Dios haga por él/ella: ${state.espera||'No lo dijo'}`;
+
+  const prompt=`Eres un escritor espiritual profundamente humano. Tu misión es escribir la Palabra de Dios personalizada para ${nombre}, una persona de fe ${religion}.
 
 Esta carta debe ser profunda y extensa — entre 500 y 700 palabras en el cuerpo principal. Escribe con esa extensión.
 
-INFORMACIÓN DE ${nombre.toUpperCase()}:
-- Lo más difícil de su semana: ${q1||'No lo mencionó, pero Dios lo sabe'}
-- Lo que le pide a Dios: ${q2||'No lo mencionó, pero Dios lo ve'}
-- Lo que le pesa en el corazón: ${q3||'No lo mencionó'}
+${info}
 
 ESTILO Y TONO:
 - Habla como si Dios mismo le estuviera hablando directamente a ${nombre}
 - Usa su nombre al menos 4 veces durante la carta
-- Tono íntimo, cálido, presente — como una carta de alguien que te conoce profundamente
-- No genérico — cada párrafo debe conectar específicamente con lo que vivió
+- Usa el género correcto en toda la carta según el dato de arriba: si es mujer, usa "Querida", "hija", "sola", "amada"; si es hombre, "Querido", "hijo", "solo", "amado". Mantén la concordancia en todo el texto.
+- Teje de forma natural los detalles que compartió: su etapa de vida, con quién vive, si tiene hijos, su sueño, su miedo o herida, cómo está su relación con Dios y lo que espera que Dios haga por él/ella. Que sienta que fue escuchado/a de verdad.
+- Tono íntimo, cálido, presente — como una carta de alguien que lo/la conoce profundamente
+- No genérico — cada párrafo debe conectar con lo que ${nombre} vive
 - Usa metáforas naturales: el agua, la luz, el camino, las estaciones
-- Alterna entre momentos de consuela, de fortaleza, y de esperanza
-- Que se sienta como si Dios hubiera estado observando su semana exacta
+- Alterna entre consuelo, fortaleza y esperanza
+- Si mencionó una herida o distancia de Dios, tócala con ternura, sin juzgar
 
 ESTRUCTURA OBLIGATORIA (sin títulos, sin asteriscos, solo texto corrido):
 
-Querido/a ${nombre},
+${saludo} ${nombre},
 
 [PÁRRAFO 1 - El encuentro: 80-100 palabras]
-Abre reconociendo exactamente lo que vivió esta semana. Nómbralo. Que ${nombre} sienta que Dios estuvo ahí. Empieza con algo que sorprenda — no con "Dios te ama" genérico.
+Abre reconociendo exactamente lo que vive esta semana y en esta etapa. Nómbralo. Que ${nombre} sienta que Dios estuvo ahí. Empieza con algo que sorprenda — no con "Dios te ama" genérico.
 
 [PÁRRAFO 2 - La palabra: 80-100 palabras]
-Introduce UN versículo bíblico REAL y específico entre comillas con su referencia exacta. Explica por qué ese versículo es la respuesta exacta a lo que ${nombre} está viviendo. Hazlo concreto.
+Introduce UN versículo bíblico REAL y específico entre comillas con su referencia exacta. Explica por qué ese versículo es la respuesta exacta a lo que ${nombre} está viviendo.
 
 [PÁRRAFO 3 - La profundidad: 80-100 palabras]
-Va más profundo. Habla de lo que ${nombre} no dijo pero quizás siente. El miedo detrás del miedo. La esperanza detrás del cansancio. Dios viendo más allá de las palabras.
+Va más profundo. Habla de su miedo o herida, de su sueño no cumplido, de lo que quizás no dijo pero siente. Dios viendo más allá de las palabras.
 
 [PÁRRAFO 4 - La promesa: 80-100 palabras]
-Una promesa concreta para esta semana. No vaga — específica. Qué va a cambiar, qué va a sentir diferente, cómo va a notar la presencia de Dios en los próximos días.
+Una promesa concreta para esta semana. Específica. Qué va a cambiar, qué va a sentir diferente, cómo va a notar la presencia de Dios.
 
 [PÁRRAFO 5 - La oración: 80-100 palabras]
-Una oración íntima escrita en primera persona del plural — como si Dios y ${nombre} oraran juntos. Que empiece con "Señor," y termine con "Amén." Que mencione su situación específica.
+Una oración íntima en primera persona del plural — como si Dios y ${nombre} oraran juntos. Empieza con "Señor," y termina con "Amén." Que mencione su situación específica.
 
 [CIERRE: 30-40 palabras]
 Cierra con calidez y esperanza. Que ${nombre} sienta que no está solo/a esta semana.
@@ -561,10 +621,12 @@ REGLAS ABSOLUTAS:
 - Versículos 100% reales y verificables con su referencia exacta
 - El nombre ${nombre} aparece al menos 4 veces
 - Mínimo 500 palabras en el cuerpo principal
-- Cero frases genéricas — todo conectado a su semana específica
+- Cero frases genéricas — todo conectado a lo que compartió ${nombre}
 - Solo texto corrido, sin títulos, sin asteriscos, sin markdown`;
-  // Situación limpia para guardar en el Sheet (reutilizable en la carta semanal)
-  const situacion = `Difícil: ${q1||'—'} | Pide: ${q2||'—'} | Pesa: ${q3||'—'}`;
+
+  // situación limpia y rica para el Sheet (reutilizable en la carta semanal)
+  const situacion = `Género: ${state.genero||'—'} | Etapa: ${state.etapa||'—'} | Con quién: ${state.conQuien||'—'} | Hijos: ${state.hijos||'—'} | Difícil: ${state.dificil||'—'} | Sueño: ${state.sueno||'—'} | Miedo/herida: ${state.miedo||'—'} | Relación con Dios: ${state.relacionDios||'—'} | Pide: ${state.pide||'—'} | Espera: ${state.espera||'—'}`;
+
   const sorteoNum='#'+Math.floor(1000+Math.random()*9000);
   try{
     const res=await fetch('/.netlify/functions/carta',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,nombre,email,sorteo:sorteoNum,situacion})});
@@ -575,14 +637,13 @@ REGLAS ABSOLUTAS:
     sessionStorage.setItem('cf_price','$20/mes');sessionStorage.setItem('cf_brand','DiosTeHabla');
     window.location.href='diostehabla-final-page2.html';
   }catch(e){
-    document.getElementById('btnGen').disabled=false;
-    document.getElementById('formArea').style.opacity='1';
     document.getElementById('loadWrap').classList.remove('on');
+    document.getElementById('card').style.display='block';
     showErr('Hubo un problema. Por favor intenta de nuevo.');
   }
 }
-function showErr(m){const e=document.getElementById('errMsg');e.textContent=m;e.classList.add('on');}
-function hideErr(){document.getElementById('errMsg').classList.remove('on');}
+
+render();
 </script>
 </body>
 </html>
